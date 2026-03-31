@@ -1,0 +1,122 @@
+_schema-version: "3.2"
+ID: pp01
+description: pp
+version: 0.0.1
+modules:
+- name: pp01-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: pp01-destination-service
+    parameters:
+      content-target: true
+  - name: pp01-repo-host
+    parameters:
+      service-key:
+        name: pp01-repo-host-key
+  - name: pp01-uaa
+    parameters:
+      service-key:
+        name: pp01-uaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: pp01_html_repo_host
+          ServiceInstanceName: pp01-html5-service
+          ServiceKeyName: pp01-repo-host-key
+          sap.cloud.service: pp01
+        - Authentication: OAuth2UserTokenExchange
+          Name: pp01_uaa
+          ServiceInstanceName: pp01-xsuaa-service
+          ServiceKeyName: pp01-uaa-key
+          sap.cloud.service: pp01
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+- name: pp01-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: pp01-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - ppzofsplitrule.zip
+      name: ppzofsplitrule
+      target-path: resources/
+    - artifacts:
+      - ppzorderforecastupload.zip
+      name: ppzorderforecastupload
+      target-path: resources/
+    - artifacts:
+      - ppofpartition.zip
+      name: ppofpartition
+      target-path: resources/
+- name: ppzofsplitrule
+  type: html5
+  path: zofsplitrule
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: ppzorderforecastupload
+  type: html5
+  path: zorderforecastupload
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: ppofpartition
+  type: html5
+  path: ofpartition
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: pp01-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: pp01-destination-service
+    service-plan: lite
+- name: pp01-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: pp01-xsuaa-service
+    service-plan: application
+- name: pp01-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: pp01-html5-service
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true

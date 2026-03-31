@@ -1,0 +1,9 @@
+{
+    "ui5": {
+    "ui5linter": {
+        "eventNamingPattern": "",
+        "idNamingPattern": ""
+    }
+  }
+}
+
