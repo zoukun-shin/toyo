@@ -14,7 +14,10 @@
     height="100%"
     busyIndicatorDelay="0"
 >
-    <f:DynamicPage id="idDynamicPage">
+    <f:DynamicPage
+        id="idDynamicPage"
+        showFooter="true"
+    >
         <f:title>
             <f:DynamicPageTitle id="idDynamicPageTitle">
                 <f:heading>
@@ -47,6 +50,13 @@
                                 label="{/#AcceptanceType/Plant/@sap:label}"
                                 mandatory="notMandatory"
                                 index="3"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="Material"
+                                visibleInAdvancedArea="true"
+                                label="{/#AcceptanceType/Material/@sap:label}"
+                                mandatory="notMandatory"
+                                index="4"
                             />
                             <smartFilterBar:ControlConfiguration
                                 key="PartNumber"
@@ -112,10 +122,15 @@
                     <OverflowToolbar id="idOverflowToolbar">
                         <ToolbarSpacer id="idToolbarSpacer" />
                         <Button
-                            id="idCreatePIR"
+                            id="idInputDiff"
                             type="Transparent"
-                            text="単価差異入力"
-                            press="onInputDifference"
+                            text="{i18n>InputDifference}"
+                            press=".onInputDifference($event,'create')"
+                        />
+                        <Button
+                            type="Transparent"
+                            text="{i18n>PostingSupplierInvoice}"
+                            press="onCreateInvoice"
                         />
                     </OverflowToolbar>
                 </smartTable:customToolbar>
@@ -124,10 +139,21 @@
                     selectionMode="Multi"
                     class="sapUiSizeCompact"
                     rowsUpdated="onRowsUpdated"
+                    rowActionCount="1"
                 >
                     <t:rowMode>
                         <rm:Auto id="idAuto" />
                     </t:rowMode>
+                    <t:rowActionTemplate>
+                        <t:RowAction>
+                            <t:RowActionItem
+                                id="idRowActionItem"
+                                type="Navigation"
+                                press=".onInputDifference($event,'change')"
+                                visible="{= ${PurchaseOrder}  === '' }"
+                            />
+                        </t:RowAction>
+                    </t:rowActionTemplate>
                     <t:columns>
                         <t:Column
                             width="8rem"
@@ -271,20 +297,20 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/ProductName/@sap:label}"
-                            sortProperty="ProductName"
-                            filterProperty="ProductName"
+                            label="{/#AcceptanceType/MaterialName/@sap:label}"
+                            sortProperty="MaterialName"
+                            filterProperty="MaterialName"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"ProductName", "leadingProperty":"ProductName", "sortProperty":"ProductName", "filterProperty": "ProductName"}'
+                                    value='\{"columnKey":"MaterialName", "leadingProperty":"MaterialName", "sortProperty":"MaterialName", "filterProperty": "MaterialName"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{ProductName}"
-                                    tooltip="{ProductName}"
+                                    text="{MaterialName}"
+                                    tooltip="{MaterialName}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -311,20 +337,20 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/ABR/@sap:label}"
-                            sortProperty="ABR"
-                            filterProperty="ABR"
+                            label="{/#AcceptanceType/Abr/@sap:label}"
+                            sortProperty="Abr"
+                            filterProperty="Abr"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"ABR", "leadingProperty":"ABR", "sortProperty":"ABR", "filterProperty": "ABR"}'
+                                    value='\{"columnKey":"Abr", "leadingProperty":"Abr", "sortProperty":"Abr", "filterProperty": "Abr"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{ABR}"
-                                    tooltip="{ABR}"
+                                    text="{Abr}"
+                                    tooltip="{Abr}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -438,13 +464,12 @@
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"GoodsReceiptDate", "leadingProperty":"GoodsReceiptDate", "sortProperty":"GoodsReceiptDate", "filterProperty": "GoodsReceiptDate"}'
+                                    value='\{"columnKey":"GoodsReceiptDate", "leadingProperty":"GoodsReceiptDate", "sortProperty":"GoodsReceiptDate", "filterProperty": "GoodsReceiptDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{GoodsReceiptDate}"
-                                    tooltip="{GoodsReceiptDate}"
+                                    text="{path:'GoodsReceiptDate', type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -458,13 +483,12 @@
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"AcceptanceDate", "leadingProperty":"AcceptanceDate", "sortProperty":"AcceptanceDate", "filterProperty": "AcceptanceDate"}'
+                                    value='\{"columnKey":"AcceptanceDate", "leadingProperty":"AcceptanceDate", "sortProperty":"AcceptanceDate", "filterProperty": "AcceptanceDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{AcceptanceDate}"
-                                    tooltip="{AcceptanceDate}"
+                                    text="{path:'AcceptanceDate', type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -758,13 +782,12 @@
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"PriceValidityStartDate", "leadingProperty":"PriceValidityStartDate", "sortProperty":"PriceValidityStartDate", "filterProperty": "PriceValidityStartDate"}'
+                                    value='\{"columnKey":"PriceValidityStartDate", "leadingProperty":"PriceValidityStartDate", "sortProperty":"PriceValidityStartDate", "filterProperty": "PriceValidityStartDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{PriceValidityStartDate}"
-                                    tooltip="{PriceValidityStartDate}"
+                                    text="{path:'PriceValidityStartDate',type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -778,13 +801,12 @@
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"PriceValidityEndDate", "leadingProperty":"PriceValidityEndDate", "sortProperty":"PriceValidityEndDate", "filterProperty": "PriceValidityEndDate"}'
+                                    value='\{"columnKey":"PriceValidityEndDate", "leadingProperty":"PriceValidityEndDate", "sortProperty":"PriceValidityEndDate", "filterProperty": "PriceValidityEndDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{PriceValidityEndDate}"
-                                    tooltip="{PriceValidityEndDate}"
+                                    text="{path:'PriceValidityEndDate', type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -849,26 +871,15 @@
                                 />
                             </t:template>
                         </t:Column>
-                        <t:Column
-                            width="8rem"
-                            label="{/#AcceptanceType/InvoicingPartyName/@sap:label}"
-                            sortProperty="InvoicingPartyName"
-                            filterProperty="InvoicingPartyName"
-                        >
+                        <!-- <t:Column width="8rem" label="{/#AcceptanceType/InvoicingPartyName/@sap:label}" sortProperty="InvoicingPartyName" filterProperty="InvoicingPartyName">
                             <t:customData>
-                                <core:CustomData
-                                    key="p13nData"
-                                    value='\{"columnKey":"InvoicingPartyName", "leadingProperty":"InvoicingPartyName", "sortProperty":"InvoicingPartyName", "filterProperty": "InvoicingPartyName"}'
+                                <core:CustomData key="p13nData" value='\{"columnKey":"InvoicingPartyName", "leadingProperty":"InvoicingPartyName", "sortProperty":"InvoicingPartyName", "filterProperty": "InvoicingPartyName"}'
                                 />
                             </t:customData>
                             <t:template>
-                                <Text
-                                    text="{InvoicingPartyName}"
-                                    tooltip="{InvoicingPartyName}"
-                                    wrapping="false"
-                                />
+                                <Text text="{InvoicingPartyName}" tooltip="{InvoicingPartyName}" wrapping="false" />
                             </t:template>
-                        </t:Column>
+                        </t:Column> -->
                         <t:Column
                             width="8rem"
                             label="{/#AcceptanceType/ReturnsQuantity/@sap:label}"
@@ -1051,20 +1062,20 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/TaxRate/@sap:label}"
-                            sortProperty="TaxRate"
-                            filterProperty="TaxRate"
+                            label="{/#AcceptanceType/TaxRateString/@sap:label}"
+                            sortProperty="TaxRateString"
+                            filterProperty="TaxRateString"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"TaxRate", "leadingProperty":"TaxRate", "sortProperty":"TaxRate", "filterProperty": "TaxRate"}'
+                                    value='\{"columnKey":"TaxRateString", "leadingProperty":"TaxRateString", "sortProperty":"TaxRateString", "filterProperty": "TaxRateString"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{TaxRate}"
-                                    tooltip="{TaxRate}"
+                                    text="{TaxRateString}"
+                                    tooltip="{TaxRateString}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1098,13 +1109,12 @@
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"APCreatedDate", "leadingProperty":"APCreatedDate", "sortProperty":"APCreatedDate", "filterProperty": "APCreatedDate"}'
+                                    value='\{"columnKey":"APCreatedDate", "leadingProperty":"APCreatedDate", "sortProperty":"APCreatedDate", "filterProperty": "APCreatedDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{APCreatedDate}"
-                                    tooltip="{APCreatedDate}"
+                                    text="{path:'APCreatedDate', type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1178,13 +1188,12 @@
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"DocumentDate", "leadingProperty":"DocumentDate", "sortProperty":"DocumentDate", "filterProperty": "DocumentDate"}'
+                                    value='\{"columnKey":"DocumentDate", "leadingProperty":"DocumentDate", "sortProperty":"DocumentDate", "filterProperty": "DocumentDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{DocumentDate}"
-                                    tooltip="{DocumentDate}"
+                                    text="{path:'DocumentDate', type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1271,20 +1280,20 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/RecordSequenceNumber/@sap:label}"
-                            sortProperty="RecordSequenceNumber"
-                            filterProperty="RecordSequenceNumber"
+                            label="{/#AcceptanceType/RecordSequence/@sap:label}"
+                            sortProperty="RecordSequence"
+                            filterProperty="RecordSequence"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"RecordSequenceNumber", "leadingProperty":"RecordSequenceNumber", "sortProperty":"RecordSequenceNumber", "filterProperty": "RecordSequenceNumber"}'
+                                    value='\{"columnKey":"RecordSequence", "leadingProperty":"RecordSequence", "sortProperty":"RecordSequence", "filterProperty": "RecordSequence"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{RecordSequenceNumber}"
-                                    tooltip="{RecordSequenceNumber}"
+                                    text="{RecordSequence}"
+                                    tooltip="{RecordSequence}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1293,5 +1302,20 @@
                 </t:Table>
             </smartTable:SmartTable>
         </f:content>
+        <f:footer>
+            <OverflowToolbar
+                id="id0OverflowToolbar"
+                visible="{= ${message>/}.length > 0}"
+            >
+                <Button
+                    id="idButton"
+                    icon="sap-icon://alert"
+                    text="{= ${message>/}.length }"
+                    visible="{= ${message>/}.length > 0}"
+                    type="Emphasized"
+                    press="onMessagePopoverPress"
+                />
+            </OverflowToolbar>
+        </f:footer>
     </f:DynamicPage>
 </mvc:View>

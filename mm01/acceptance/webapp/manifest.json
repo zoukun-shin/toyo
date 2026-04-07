@@ -28,13 +28,34 @@
         "type": "OData",
         "settings": {
           "annotations": [
-            "ZUI_ACCEPTANCE_O2_VAN"
+            "ZUI_ACCEPTANCE_O2_VAN",
+            "annotation0"
           ],
           "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "2.0"
         }
+      },
+      "annotation0": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation0.xml",
+        "settings": {
+          "localUri": "annotations/annotation0.xml"
+        }
       }
+    },
+    "crossNavigation": {
+        "inbounds": {
+            "ofpartition-display": {
+                "semanticObject": "acceptance",
+                "action": "display",
+                "signature": {
+                    "parameters": {},
+                    "additionalParameters": "allowed"
+                }
+            }
+        }
     }
+
   },
   "sap.ui": {
     "technology": "UI5",
@@ -75,7 +96,10 @@
       "": {
         "dataSource": "mainService",
         "preload": true,
-        "settings": {}
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline"
+        }
       }
     },
     "resources": {
@@ -123,5 +147,8 @@
   "sap.cloud": {
     "public": true,
     "service": "mm01"
-  }
+  },
+  "sap.platform.cf": {
+		"ui5VersionNumber": "1.136"
+	}
 }

@@ -24,11 +24,6 @@
             editTogglable="true"
             editToggled="onSmartFormEditToggled"
         >
-            <smartForm:customToolbar>
-                <OverflowToolbar>
-                    <Button text="Save" press="onSave"/>
-                </OverflowToolbar>
-            </smartForm:customToolbar>
             <smartForm:layout>
                 <smartForm:Layout columnsM="2" columnsL="2" columnsXL="2" singleGroupFullSize="false"/>
             </smartForm:layout>
@@ -39,20 +34,21 @@
                 </smartForm:layoutData> -->
                 <smartForm:GroupElement>
                     <smartField:SmartField
-                        textLabel="{/#PriceDifferenceType/OrderNo/@sap:label}"
-                        value="{OrderNo}"
+                        textLabel="{/#PriceDifferenceType/OrderNumber/@sap:label}"
+                        value="{OrderNumber}"
                     />
                 </smartForm:GroupElement>
                 <smartForm:GroupElement>
                     <smartField:SmartField
-                        textLabel="{/#PriceDifferenceType/RecordNo/@sap:label}"
-                        value="{RecordNo}"
+                        textLabel="{/#PriceDifferenceType/RecordSequence/@sap:label}"
+                        value="{RecordSequence}"
                     />
                 </smartForm:GroupElement>
                 <smartForm:GroupElement>
                     <smartField:SmartField
                         textLabel="{/#PriceDifferenceType/Material/@sap:label}"
                         value="{Material}"
+                        change="onChangeMaterial"
                     />
                 </smartForm:GroupElement>
                 <smartForm:GroupElement>
@@ -65,12 +61,14 @@
                     <smartField:SmartField
                     textLabel="{/#PriceDifferenceType/Plant/@sap:label}"
                     value="{Plant}"
+                    change="onChangePrice"
                     />
                 </smartForm:GroupElement>
                 <smartForm:GroupElement>
                     <smartField:SmartField
                     textLabel="{/#PriceDifferenceType/Supplier/@sap:label}"
                     value="{Supplier}"
+                    change="onChangePrice"
                     />
                 </smartForm:GroupElement>
                 <smartForm:GroupElement>
@@ -186,12 +184,21 @@
                 </smartForm:GroupElement>
             </smartForm:Group>
         </smartForm:SmartForm>
-        <beginButton>
-			<Button text="{i18n>bConfirm}" press="onDialogConfirm"/>
-		</beginButton>
-		<endButton>
-			<Button text="{i18n>bCancel}" press="onDialogClose"/>
-		</endButton>
-
+        <footer>
+            <OverflowToolbar
+                id="id1OverflowToolbar"
+            >
+                <Button
+                    icon="sap-icon://alert"
+                    text="{= ${message>/}.length }"
+                    visible="{= ${message>/}.length > 0}"
+                    type="Emphasized"
+                    press="onMessagePopoverPress"
+                />
+                <ToolbarSpacer />
+                <Button text="{i18n>bConfirm}" press="onDialogConfirm"/>
+                <Button text="{i18n>bCancel}" press="onDialogClose"/>
+            </OverflowToolbar>
+        </footer>
     </Dialog>
 </c:FragmentDefinition>
