@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Tue Mar 31 2026 08:39:32 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "https://my429321.s4hana.cloud.sap/sap/opu/odata/sap/ZUI_POUPLOAD_O2",
+    "appName": "poupload",
+    "appTitle": "PO upload",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "mm",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.136.0",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.22.0",
+    "template": "Basic V2",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}

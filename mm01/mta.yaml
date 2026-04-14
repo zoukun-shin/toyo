@@ -46,9 +46,23 @@ modules:
       - mmacceptance.zip
       name: mmacceptance
       target-path: resources/
+    - artifacts:
+      - mmpoupload.zip
+      name: mmpoupload
+      target-path: resources/
 - name: mmacceptance
   type: html5
   path: acceptance
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: mmpoupload
+  type: html5
+  path: poupload
   build-parameters:
     build-result: dist
     builder: custom

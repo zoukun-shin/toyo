@@ -1,0 +1,249 @@
+<mvc:View
+    controllerName="mm.poupload.controller.Report"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:unified="sap.ui.unified"
+    xmlns:t="sap.ui.table"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:sv="sap.ui.comp.smartvariants"
+    xmlns:rm="sap.ui.table.rowmodes"
+    xmlns:smartfield="sap.ui.comp.smartfield"
+>
+    <f:DynamicPage
+        id="dynamicPageId"
+        headerExpanded="true"
+        showFooter="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <sv:SmartVariantManagement
+                        id="__SVM01"
+                        showShare="true"
+                        persistencyKey="UploadHisreport"
+                        showExecuteOnSelection="true"
+                        entitySet="Report"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <f:content>
+                    <smartFilterBar:SmartFilterBar
+                        id="smartFilterBar"
+                        smartVariant="__SVM01"
+                        persistencyKey="UploadHisreportFilter"
+                        entitySet="Report"
+                        useToolbar="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="Timestamp"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>Timestamp}"
+                                index="1"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="S4codument"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>S4CODUMENT}"
+                                index="2"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="S4documentitem"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>S4CODUMENTITEM}"
+                                index="3"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="Status"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>Status}"
+                                index="4"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                    </smartFilterBar:SmartFilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smartTable:SmartTable
+                id="smartTable"
+                entitySet="Report"
+                smartFilterId="smartFilterBar"
+                smartVariant="__SVM01"
+                persistencyKey="UploadHisreportTable"
+                header="{i18n>UploadHisTableTitle}"
+                beforeRebindTable="onBeforeRebindTable"
+            >
+                <smartTable:customToolbar>
+                    <OverflowToolbar width="100%">
+                        <ToolbarSpacer />
+                    </OverflowToolbar>
+                </smartTable:customToolbar>
+                <t:Table id="reportTable">
+                    <t:rowMode>
+                        <rm:Fixed rowCount="20"/>
+                    </t:rowMode>
+                    <t:columns>
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>Status}"
+                            sortProperty="Status"
+                            filterProperty="Status"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"Status", "leadingProperty":"Status", "sortProperty":"Status", "filterProperty": "Status"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Status}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- Message -->
+                        <t:Column
+                            width="20rem"
+                            label="{i18n>Message}"
+                            sortProperty="Message"
+                            filterProperty="Message"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Message", "leadingProperty":"Message", "sortProperty":"Message", "filterProperty": "Message"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Message}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- HeadNo -->
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>HeadNo}"
+                            sortProperty="HeadNo"
+                            filterProperty="HeadNo"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"HeadNo", "leadingProperty":"HeadNo", "sortProperty":"HeadNo", "filterProperty": "HeadNo"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{HeadNo}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- ItemNo -->
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>ItemNo}"
+                            sortProperty="ItemNo"
+                            filterProperty="ItemNo"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ItemNo", "leadingProperty":"ItemNo", "sortProperty":"ItemNo", "filterProperty": "ItemNo"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ItemNo}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- S4codument -->
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>S4codument}"
+                            sortProperty="S4codument"
+                            filterProperty="S4codument"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"S4codument", "leadingProperty":"S4codument", "sortProperty":"S4codument", "filterProperty": "S4codument"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{S4codument}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- S4documentitem -->
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>S4documentitem}"
+                            sortProperty="S4documentitem"
+                            filterProperty="S4documentitem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"S4documentitem", "leadingProperty":"S4documentitem", "sortProperty":"S4documentitem", "filterProperty": "S4documentitem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{S4documentitem}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>Timestamp}"
+                            sortProperty="Timestamp"
+                            filterProperty="Timestamp"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"Timestamp", "leadingProperty":"Timestamp", "sortProperty":"Timestamp", "filterProperty": "Timestamp"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Timestamp}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </smartTable:SmartTable>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
