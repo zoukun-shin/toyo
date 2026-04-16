@@ -11,6 +11,7 @@
     xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
     xmlns:smartTable="sap.ui.comp.smarttable"
     xmlns:sv="sap.ui.comp.smartvariants"
+    xmlns:smartField="sap.ui.comp.smartfield"
     height="100%"
     busyIndicatorDelay="0"
 >
@@ -117,6 +118,7 @@
                 header="{i18n>tableHeaderTitle}"
                 placeToolbarInTable="true"
                 beforeRebindTable="onBeforeRebindTable"
+                requestAtLeastFields="APTransactionCodeName"
             >
                 <smartTable:customToolbar>
                     <OverflowToolbar id="idOverflowToolbar">
@@ -498,6 +500,7 @@
                             label="{/#AcceptanceType/AcceptanceQuantity/@sap:label}"
                             sortProperty="AcceptanceQuantity"
                             filterProperty="AcceptanceQuantity"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -507,17 +510,18 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{AcceptanceQuantity}"
+                                    text="{path:'AcceptanceQuantity',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{AcceptanceQuantity}"
                                     wrapping="false"
                                 />
                             </t:template>
                         </t:Column>
                         <t:Column
-                            width="8rem"
+                            width="12rem"
                             label="{/#AcceptanceType/AcceptanceUnitPrice/@sap:label}"
                             sortProperty="AcceptanceUnitPrice"
                             filterProperty="AcceptanceUnitPrice"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -527,8 +531,70 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{AcceptanceUnitPrice}"
+                                    text="{path:'AcceptanceUnitPrice',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{AcceptanceUnitPrice}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/AcceptanceCurrency/@sap:label}"
+                            sortProperty="AcceptanceCurrency"
+                            filterProperty="AcceptanceCurrency"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"AcceptanceCurrency", "leadingProperty":"AcceptanceCurrency", "sortProperty":"AcceptanceCurrency", "filterProperty": "AcceptanceCurrency"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{AcceptanceCurrency}"
+                                    tooltip="{AcceptanceCurrency}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/ExchangeRate/@sap:label}"
+                            sortProperty="ExchangeRate"
+                            filterProperty="ExchangeRate"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ExchangeRate", "leadingProperty":"ExchangeRate", "sortProperty":"ExchangeRate", "filterProperty": "ExchangeRate"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'ExchangeRate',type:'sap.ui.model.odata.type.Decimal'}"
+                                    tooltip="{ExchangeRate}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="12rem"
+                            label="{/#AcceptanceType/AcceptanceUnitPricePoCur/@sap:label}"
+                            sortProperty="AcceptanceUnitPricePoCur"
+                            filterProperty="AcceptanceUnitPricePoCur"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"AcceptanceUnitPricePoCur", "leadingProperty":"AcceptanceUnitPricePoCur", "sortProperty":"AcceptanceUnitPricePoCur", "filterProperty": "AcceptanceUnitPricePoCur"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'AcceptanceUnitPricePoCur',type:'sap.ui.model.odata.type.Decimal'}"
+                                    tooltip="{AcceptanceUnitPricePoCur}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -538,6 +604,7 @@
                             label="{/#AcceptanceType/AcceptanceAmount/@sap:label}"
                             sortProperty="AcceptanceAmount"
                             filterProperty="AcceptanceAmount"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -547,7 +614,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{AcceptanceAmount}"
+                                    text="{path:'AcceptanceAmount',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{AcceptanceAmount}"
                                     wrapping="false"
                                 />
@@ -558,6 +625,7 @@
                             label="{/#AcceptanceType/OrderQuantity/@sap:label}"
                             sortProperty="OrderQuantity"
                             filterProperty="OrderQuantity"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -567,7 +635,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{OrderQuantity}"
+                                    text="{path:'OrderQuantity',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{OrderQuantity}"
                                     wrapping="false"
                                 />
@@ -575,20 +643,21 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/NetPriceAmount/@sap:label}"
-                            sortProperty="NetPriceAmount"
-                            filterProperty="NetPriceAmount"
+                            label="{/#AcceptanceType/NetAmount/@sap:label}"
+                            sortProperty="NetAmount"
+                            filterProperty="NetAmount"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"NetPriceAmount", "leadingProperty":"NetPriceAmount", "sortProperty":"NetPriceAmount", "filterProperty": "NetPriceAmount"}'
+                                    value='\{"columnKey":"NetAmount", "leadingProperty":"NetAmount", "sortProperty":"NetAmount", "filterProperty": "NetAmount"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{NetPriceAmount}"
-                                    tooltip="{NetPriceAmount}"
+                                    text="{path:'NetAmount',type:'sap.ui.model.odata.type.Decimal'}"
+                                    tooltip="{NetAmount}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -698,6 +767,7 @@
                             label="{/#AcceptanceType/ConsignmentUnitPrice/@sap:label}"
                             sortProperty="ConsignmentUnitPrice"
                             filterProperty="ConsignmentUnitPrice"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -707,7 +777,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{ConsignmentUnitPrice}"
+                                    text="{path:'ConsignmentUnitPrice',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{ConsignmentUnitPrice}"
                                     wrapping="false"
                                 />
@@ -718,6 +788,7 @@
                             label="{/#AcceptanceType/PurchaseUnitPrice/@sap:label}"
                             sortProperty="PurchaseUnitPrice"
                             filterProperty="PurchaseUnitPrice"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -727,28 +798,8 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{PurchaseUnitPrice}"
+                                    text="{path:'PurchaseUnitPrice',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{PurchaseUnitPrice}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column
-                            width="8rem"
-                            label="{/#AcceptanceType/ChargeableUnitPrice/@sap:label}"
-                            sortProperty="ChargeableUnitPrice"
-                            filterProperty="ChargeableUnitPrice"
-                        >
-                            <t:customData>
-                                <core:CustomData
-                                    key="p13nData"
-                                    value='\{"columnKey":"ChargeableUnitPrice", "leadingProperty":"ChargeableUnitPrice", "sortProperty":"ChargeableUnitPrice", "filterProperty": "ChargeableUnitPrice"}'
-                                />
-                            </t:customData>
-                            <t:template>
-                                <Text
-                                    text="{ChargeableUnitPrice}"
-                                    tooltip="{ChargeableUnitPrice}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -758,6 +809,7 @@
                             label="{/#AcceptanceType/SubcontractUnitPrice/@sap:label}"
                             sortProperty="SubcontractUnitPrice"
                             filterProperty="SubcontractUnitPrice"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -767,7 +819,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{SubcontractUnitPrice}"
+                                    text="{path:'SubcontractUnitPrice',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{SubcontractUnitPrice}"
                                     wrapping="false"
                                 />
@@ -885,6 +937,7 @@
                             label="{/#AcceptanceType/ReturnsQuantity/@sap:label}"
                             sortProperty="ReturnsQuantity"
                             filterProperty="ReturnsQuantity"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -894,7 +947,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{ReturnsQuantity}"
+                                    text="{path:'ReturnsQuantity',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{ReturnsQuantity}"
                                     wrapping="false"
                                 />
@@ -945,6 +998,7 @@
                             label="{/#AcceptanceType/PriceDifference/@sap:label}"
                             sortProperty="PriceDifference"
                             filterProperty="PriceDifference"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -954,7 +1008,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{PriceDifference}"
+                                    text="{path:'PriceDifference',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{PriceDifference}"
                                     wrapping="false"
                                 />
@@ -965,6 +1019,7 @@
                             label="{/#AcceptanceType/DifferenceQuantity/@sap:label}"
                             sortProperty="DifferenceQuantity"
                             filterProperty="DifferenceQuantity"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -974,7 +1029,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{DifferenceQuantity}"
+                                    text="{path:'DifferenceQuantity',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{DifferenceQuantity}"
                                     wrapping="false"
                                 />
@@ -985,6 +1040,7 @@
                             label="{/#AcceptanceType/APUnitPrice/@sap:label}"
                             sortProperty="APUnitPrice"
                             filterProperty="APUnitPrice"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -994,7 +1050,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{APUnitPrice}"
+                                    text="{path:'APUnitPrice',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{APUnitPrice}"
                                     wrapping="false"
                                 />
@@ -1005,6 +1061,7 @@
                             label="{/#AcceptanceType/APAmountExclTax/@sap:label}"
                             sortProperty="APAmountExclTax"
                             filterProperty="APAmountExclTax"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -1014,7 +1071,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{APAmountExclTax}"
+                                    text="{path:'APAmountExclTax',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{APAmountExclTax}"
                                     wrapping="false"
                                 />
@@ -1025,6 +1082,7 @@
                             label="{/#AcceptanceType/APAmountInclTax/@sap:label}"
                             sortProperty="APAmountInclTax"
                             filterProperty="APAmountInclTax"
+                            hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -1034,7 +1092,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{APAmountInclTax}"
+                                    text="{path:'APAmountInclTax',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{APAmountInclTax}"
                                     wrapping="false"
                                 />
@@ -1081,6 +1139,7 @@
                             </t:template>
                         </t:Column>
                         <t:Column
+                            hAlign="Right"
                             width="8rem"
                             label="{/#AcceptanceType/TaxAmount/@sap:label}"
                             sortProperty="TaxAmount"
@@ -1094,7 +1153,7 @@
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{TaxAmount}"
+                                    text="{path:'TaxAmount',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{TaxAmount}"
                                     wrapping="false"
                                 />
@@ -1102,19 +1161,19 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/APCreatedDate/@sap:label}"
-                            sortProperty="APCreatedDate"
-                            filterProperty="APCreatedDate"
+                            label="{/#AcceptanceType/IsAPCreatedText/@sap:label}"
+                            sortProperty="IsAPCreatedText"
+                            filterProperty="IsAPCreatedText"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"APCreatedDate", "leadingProperty":"APCreatedDate", "sortProperty":"APCreatedDate", "filterProperty": "APCreatedDate","type":"date"}'
+                                    value='\{"columnKey":"IsAPCreatedText", "leadingProperty":"IsAPCreatedText", "sortProperty":"IsAPCreatedText", "filterProperty": "IsAPCreatedText"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{path:'APCreatedDate', type:'sap.ui.model.type.Date'}"
+                                    text="{IsAPCreatedText}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1140,7 +1199,7 @@
                             </t:template>
                         </t:Column>
                         <t:Column
-                            width="8rem"
+                            width="12rem"
                             label="{/#AcceptanceType/APTransactionCode/@sap:label}"
                             sortProperty="APTransactionCode"
                             filterProperty="APTransactionCode"
@@ -1152,11 +1211,17 @@
                                 />
                             </t:customData>
                             <t:template>
-                                <Text
+                                <smartField:SmartField
+                                    entitySet="Acceptance"
+                                    value="{APTransactionCode}"
+                                    editable="false"
+                                    wrapping="false"
+                                />
+                                <!-- <Text
                                     text="{APTransactionCode}"
                                     tooltip="{APTransactionCode}"
                                     wrapping="false"
-                                />
+                                /> -->
                             </t:template>
                         </t:Column>
                         <t:Column
@@ -1181,19 +1246,19 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/DocumentDate/@sap:label}"
-                            sortProperty="DocumentDate"
-                            filterProperty="DocumentDate"
+                            label="{/#AcceptanceType/InvoiceDate/@sap:label}"
+                            sortProperty="InvoiceDate"
+                            filterProperty="InvoiceDate"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"DocumentDate", "leadingProperty":"DocumentDate", "sortProperty":"DocumentDate", "filterProperty": "DocumentDate","type":"date"}'
+                                    value='\{"columnKey":"InvoiceDate", "leadingProperty":"InvoiceDate", "sortProperty":"InvoiceDate", "filterProperty": "InvoiceDate","type":"date"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{path:'DocumentDate', type:'sap.ui.model.type.Date'}"
+                                    text="{path:'InvoiceDate', type:'sap.ui.model.type.Date'}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1294,6 +1359,26 @@
                                 <Text
                                     text="{RecordSequence}"
                                     tooltip="{RecordSequence}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/PricingDateControl/@sap:label}"
+                            sortProperty="PricingDateControl"
+                            filterProperty="PricingDateControl"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"PricingDateControl", "leadingProperty":"PricingDateControl", "sortProperty":"PricingDateControl", "filterProperty": "PricingDateControl"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{PricingDateControl}"
+                                    tooltip="{PricingDateControl}"
                                     wrapping="false"
                                 />
                             </t:template>

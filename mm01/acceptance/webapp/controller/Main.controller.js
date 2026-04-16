@@ -91,6 +91,7 @@ sap.ui.define([
 		onDialogClose: function () {
 			Messaging.removeAllMessages();
 			this._oDataModel.resetChanges();
+			this._oDataModel.refresh(true);
 			this.byId("idDialog").close();
 		},
 
@@ -99,28 +100,17 @@ sap.ui.define([
 			this.onSave();
 		},
 
-		bindingSmartform: function (oEvent,sMode) {
-			// var oTable = this.byId("reportTable1");
-			// var oModel = oTable.getModel();
-
-			// var aSelectedData = [];
-			// var aSelectedIndices = oTable.getSelectedIndices();
-			// // 遍历选中的行索引，获取行数据
-			// aSelectedIndices.forEach(function (iIndex) {
-			// 	var oContext = oTable.getContextByIndex(iIndex);
-			// 	var oRowData = oModel.getProperty(oContext.getPath());
-			// 	var oCopyRowData = JSON.parse(JSON.stringify(oRowData));
-			// 	aSelectedData.push(oCopyRowData);
-			// });
-			// let oSelectedRecord = aSelectedData[0];
+		async bindingSmartform (oEvent,sMode) {
+			let iRecordSequence = await this.getNewRecordSequence();
 
 			let oContext;
 			this._oDataModel.setDeferredGroups(["changes","group1"]);
 			if (sMode === "create") {
 				oContext = this.createEntryWithPromise("/PriceDifference",
 				{
-					RecordSequence: "12",
+					RecordSequence: iRecordSequence.toString(),
 					OrderNumber: "123123",
+					CompanyCode:"30JT",
 					PaySbu:"MF",
 					TransCode:"001",
 					InvoiceDate: new Date(),
@@ -249,12 +239,13 @@ sap.ui.define([
 			let aPostData = [];
 			aSelectedData.forEach(function(line){
 				let iItemAmount,iQuantity,sQuantityUnit;
+
 				if ( line.PurchaseOrder !== "" ) {
-					iItemAmount = line.NetPriceAmount;
+					iItemAmount = line.APAmountExclTax;
 					iQuantity = line.OrderQuantity;
 					sQuantityUnit = line.PurchaseOrderQuantityUnit;
 				} else {
-					iItemAmount = line.APAmountInclTax;
+					iItemAmount = line.APAmountExclTax;
 					iQuantity = line.DifferenceQuantity;
 					sQuantityUnit = line.BaseUnit;
 				}
@@ -274,6 +265,7 @@ sap.ui.define([
 					Quantity: iQuantity,
 					QuantityUnit: sQuantityUnit,
 					ItemAmount: iItemAmount,
+					TaxAmount:line.TaxAmount,
 					TaxCode: line.TaxCode
 
 				});
@@ -320,7 +312,7 @@ sap.ui.define([
 					let sPath = that.byId("idSmartForm").getBindingContext().getPath();
 					let oRecord = JSON.parse(oData[sAction].Zzkey);
 					that._oDataModel.setProperty(sPath + "/DisclosureDivision", oRecord.DISCLOSUREDIVISION.toString());
-					that._oDataModel.setProperty(sPath + "/Abr", oRecord.ABR.toString());
+					that._oDataModel.setProperty(sPath + "/Abr", oRecord.ABR.toString(),);
 					that._oDataModel.setProperty(sPath + "/Unit", oRecord.UNIT.toString());
 				});
 		},
@@ -346,6 +338,34 @@ sap.ui.define([
 						that._BusyDialog.close();
 					}
 				})});
+		},
+
+		getNewRecordSequence: function () {
+			let that = this;
+			return new Promise(function(resolve, reject){
+				var mParameters = {
+					// filters: aFilter,
+					sorters: [
+						new sap.ui.model.Sorter("RecordSequence", true)
+					],
+					urlParameters: {
+						"$top": 1,
+						"$select": "RecordSequence"
+					},
+					success: function (oData) {
+						let iRecordSequence = 0;
+						if (oData.results.length > 0) {
+							iRecordSequence = oData.results[0].RecordSequence;
+						}
+						resolve( parseInt(iRecordSequence) + 1);
+					},
+					error: function (oError) {
+						messages.showError(messages.parseErrors(oError));
+						reject();
+					}
+				};
+				that.getOwnerComponent().getModel().read("/PriceDifference", mParameters);
+			});
 		},
 
 		getSelectedRows: function (oEvent) {
