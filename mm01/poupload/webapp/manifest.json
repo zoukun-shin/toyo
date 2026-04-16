@@ -40,7 +40,6 @@
         "PoUpload-display": {
           "semanticObject": "PoUpload",
           "action": "display",
-          "title": "{{PoUpload-display.flpTitle}}",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
