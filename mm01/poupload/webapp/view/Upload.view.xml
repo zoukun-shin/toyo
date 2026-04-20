@@ -60,6 +60,13 @@
                             </table:template>
                         </table:Column>
 
+                        <!-- REQUESTPAYLOAD 列 -->
+                        <table:Column width="10rem" label="{i18n>REQUESTPAYLOAD}">
+                            <table:template>
+                                <Text text="{local>REQUESTPAYLOAD}" wrapping="false"/>
+                            </table:template>
+                        </table:Column>
+
                         <!-- COMPANYCODE 列 -->
                         <table:Column width="10rem" label="{i18n>COMPANYCODE}">
                             <table:template>
@@ -235,12 +242,6 @@
                             </table:template>
                         </table:Column>
 
-                        <!-- REQUESTPAYLOAD 列 -->
-                        <table:Column width="10rem" label="{i18n>REQUESTPAYLOAD}">
-                            <table:template>
-                                <Text text="{local>REQUESTPAYLOAD}" wrapping="false"/>
-                            </table:template>
-                        </table:Column>
                     </table:columns>
                 </table:Table>
             </Panel>
