@@ -50,6 +50,10 @@ modules:
       - mmpoupload.zip
       name: mmpoupload
       target-path: resources/
+    - artifacts:
+      - mmaccountspayable.zip
+      name: mmaccountspayable
+      target-path: resources/
 - name: mmacceptance
   type: html5
   path: acceptance
@@ -63,6 +67,16 @@ modules:
 - name: mmpoupload
   type: html5
   path: poupload
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: mmaccountspayable
+  type: html5
+  path: accountspayable
   build-parameters:
     build-result: dist
     builder: custom

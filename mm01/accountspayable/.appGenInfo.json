@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Wed Apr 22 2026 05:29:48 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "https://my429321.s4hana.cloud.sap/sap/opu/odata/sap/ZUI_ACCOUNTSPAYABLE_O2",
+    "appName": "accountspayable",
+    "appTitle": "買掛データ",
+    "appDescription": "買掛データ",
+    "appNamespace": "mm",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.136.17",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.22.0",
+    "template": "Basic V2",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}
