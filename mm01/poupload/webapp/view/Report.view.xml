@@ -282,6 +282,26 @@
                                 />
                             </t:template>
                         </t:Column>
+                        <!-- RequestPayload -->
+                        <t:Column
+                            width="12rem"
+                            label="{i18n>REQUESTPAYLOAD}"
+                            sortProperty="RequestPayload"
+                            filterProperty="RequestPayload"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"RequestPayload", "leadingProperty":"RequestPayload", "sortProperty":"RequestPayload", "filterProperty": "RequestPayload"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{RequestPayload}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
 
                         <!-- CompanyCode -->
                         <t:Column
