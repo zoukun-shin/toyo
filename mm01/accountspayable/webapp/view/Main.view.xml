@@ -81,19 +81,26 @@
                                 index="9"
                             />
                             <smartFilterBar:ControlConfiguration
-                                key="PostingDateYM"
+                                key="FiscalYear"
                                 visibleInAdvancedArea="true"
-                                label="{/#AccountsPayableType/PostingDateYM/@sap:label}"
+                                label="{/#AccountsPayableType/FiscalYear/@sap:label}"
+                                mandatory="notMandatory"
+                                index="10"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="PostingDateM"
+                                visibleInAdvancedArea="true"
+                                label="{/#AccountsPayableType/PostingDateM/@sap:label}"
                                 mandatory="notMandatory"
                                 index="11"
                             >
-                                <smartFilterBar:customControl>
+                                <!-- <smartFilterBar:customControl>
                                     <DateRangeSelection
                                         id="idDateRangeSelection"
                                         valueFormat="yyyy/MM"
                                         displayFormat="yyyy/MM"
                                     />
-                                </smartFilterBar:customControl>
+                                </smartFilterBar:customControl> -->
                             </smartFilterBar:ControlConfiguration>
                         </smartFilterBar:controlConfiguration>
                     </smartFilterBar:SmartFilterBar>
@@ -143,6 +150,26 @@
                                 <Text
                                     text="{FiscalYear}"
                                     tooltip="{FiscalYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AccountsPayableType/PostingDateM/@sap:label}"
+                            sortProperty="PostingDateM"
+                            filterProperty="PostingDateM"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"PostingDateM", "leadingProperty":"PostingDateM", "sortProperty":"PostingDateM", "filterProperty": "PostingDateM"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{PostingDateM}"
+                                    tooltip="{PostingDateM}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -260,26 +287,6 @@
                             <t:template>
                                 <Text
                                     text="{path:'PostingDate', type:'sap.ui.model.type.Date'}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column
-                            width="8rem"
-                            label="{/#AccountsPayableType/PostingDateYM/@sap:label}"
-                            sortProperty="PostingDateYM"
-                            filterProperty="PostingDateYM"
-                        >
-                            <t:customData>
-                                <core:CustomData
-                                    key="p13nData"
-                                    value='\{"columnKey":"PostingDateYM", "leadingProperty":"PostingDateYM", "sortProperty":"PostingDateYM", "filterProperty": "PostingDateYM"}'
-                                />
-                            </t:customData>
-                            <t:template>
-                                <Text
-                                    text="{PostingDateYM}"
-                                    tooltip="{PostingDateYM}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -607,26 +614,6 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AccountsPayableType/QuantityUnit/@sap:label}"
-                            sortProperty="QuantityUnit"
-                            filterProperty="QuantityUnit"
-                        >
-                            <t:customData>
-                                <core:CustomData
-                                    key="p13nData"
-                                    value='\{"columnKey":"QuantityUnit", "leadingProperty":"QuantityUnit", "sortProperty":"QuantityUnit", "filterProperty": "QuantityUnit"}'
-                                />
-                            </t:customData>
-                            <t:template>
-                                <Text
-                                    text="{QuantityUnit}"
-                                    tooltip="{QuantityUnit}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column
-                            width="8rem"
                             label="{/#AccountsPayableType/SupplierInvoiceItemAmount/@sap:label}"
                             sortProperty="SupplierInvoiceItemAmount"
                             filterProperty="SupplierInvoiceItemAmount"
@@ -723,26 +710,6 @@
                                 <Text
                                     text="{path:'BillingQuantity',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{BillingQuantity}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column
-                            width="8rem"
-                            label="{/#AccountsPayableType/BillingQuantityUnit/@sap:label}"
-                            sortProperty="BillingQuantityUnit"
-                            filterProperty="BillingQuantityUnit"
-                        >
-                            <t:customData>
-                                <core:CustomData
-                                    key="p13nData"
-                                    value='\{"columnKey":"BillingQuantityUnit", "leadingProperty":"BillingQuantityUnit", "sortProperty":"BillingQuantityUnit", "filterProperty": "BillingQuantityUnit"}'
-                                />
-                            </t:customData>
-                            <t:template>
-                                <Text
-                                    text="{BillingQuantityUnit}"
-                                    tooltip="{BillingQuantityUnit}"
                                     wrapping="false"
                                 />
                             </t:template>

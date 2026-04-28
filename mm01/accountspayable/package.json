@@ -18,7 +18,7 @@
     "ui5-task-zipper": "^3.4.x"
   },
   "scripts": {
-    "start": "fiori run --open \"test/flp.html#app-preview\"",
+    "start": "fiori run --open \"test/flp.html?sap-language=ja#app-preview\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flp.html#app-preview\"",
     "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
     "lint": "eslint ./",

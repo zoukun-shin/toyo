@@ -13,11 +13,11 @@ sap.ui.define([
         onBeforeRebindTable: function (oEvent) {
 			var oFilter = oEvent.getParameter("bindingParams").filters;
 			var oNewFilter, aNewFilter = [];
-			if (this.byId("idDateRangeSelection").getValue() !== "") {
-				var dPerioFrom = this.byId("idDateRangeSelection").getDateValue();
-				var dPerioTo = this.byId("idDateRangeSelection").getSecondDateValue();
-				aNewFilter.push(new Filter("PostingDateYM", "BT", formatter.dateFormatter(dPerioFrom, "yyyyMM"), formatter.dateFormatter(dPerioTo, "yyyyMM") )); 
-			}
+			// if (this.byId("idDateRangeSelection").getValue() !== "") {
+			// 	var dPerioFrom = this.byId("idDateRangeSelection").getDateValue();
+			// 	var dPerioTo = this.byId("idDateRangeSelection").getSecondDateValue();
+			// 	aNewFilter.push(new Filter("PostingDateYM", "BT", formatter.dateFormatter(dPerioFrom, "yyyyMM"), formatter.dateFormatter(dPerioTo, "yyyyMM") )); 
+			// }
 			
 			oNewFilter = new Filter({
 				filters:aNewFilter,

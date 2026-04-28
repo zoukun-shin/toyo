@@ -257,16 +257,16 @@ sap.ui.define([
 					Supplier: line.Supplier,
 					// PostingDate: line.DocumentDate,
 					DocumentCurrency: line.DocumentCurrency,
-
 					PurchaseOrder: line.PurchaseOrder,
 					PurchaseOrderItem: line.PurchaseOrderItem,
 					RecordSequence: line.RecordSequence,
-
 					Quantity: iQuantity,
 					QuantityUnit: sQuantityUnit,
 					ItemAmount: iItemAmount,
 					TaxAmount:line.TaxAmount,
-					TaxCode: line.TaxCode
+					TaxCode: line.TaxCode,
+					APTransactionCode: line.APTransactionCode,
+					APTransactionCodeName: line.APTransactionCodeName,
 
 				});
 			})

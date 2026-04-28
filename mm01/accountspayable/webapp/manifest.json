@@ -87,7 +87,9 @@
       "": {
         "dataSource": "mainService",
         "preload": true,
-        "settings": {}
+        "settings": {
+          "defaultCountMode": "Inline"
+        }
       }
     },
     "resources": {
