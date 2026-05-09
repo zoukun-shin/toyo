@@ -940,20 +940,60 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AccountsPayableType/PurchaseOrderByCustomer/@sap:label}"
-                            sortProperty="PurchaseOrderByCustomer"
-                            filterProperty="PurchaseOrderByCustomer"
+                            label="{/#AccountsPayableType/ReferenceSDDocument/@sap:label}"
+                            sortProperty="ReferenceSDDocument"
+                            filterProperty="ReferenceSDDocument"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"PurchaseOrderByCustomer", "leadingProperty":"PurchaseOrderByCustomer", "sortProperty":"PurchaseOrderByCustomer", "filterProperty": "PurchaseOrderByCustomer"}'
+                                    value='\{"columnKey":"ReferenceSDDocument", "leadingProperty":"ReferenceSDDocument", "sortProperty":"ReferenceSDDocument", "filterProperty": "ReferenceSDDocument"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{PurchaseOrderByCustomer}"
-                                    tooltip="{PurchaseOrderByCustomer}"
+                                    text="{ReferenceSDDocument}"
+                                    tooltip="{ReferenceSDDocument}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AccountsPayableType/ReferenceSDDocumentItem/@sap:label}"
+                            sortProperty="ReferenceSDDocumentItem"
+                            filterProperty="ReferenceSDDocumentItem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ReferenceSDDocumentItem", "leadingProperty":"ReferenceSDDocumentItem", "sortProperty":"ReferenceSDDocumentItem", "filterProperty": "ReferenceSDDocumentItem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ReferenceSDDocumentItem}"
+                                    tooltip="{ReferenceSDDocumentItem}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AccountsPayableType/QuantityUnit/@sap:label}"
+                            sortProperty="QuantityUnit"
+                            filterProperty="QuantityUnit"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"QuantityUnit", "leadingProperty":"QuantityUnit", "sortProperty":"QuantityUnit", "filterProperty": "QuantityUnit"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{QuantityUnit}"
+                                    tooltip="{QuantityUnit}"
                                     wrapping="false"
                                 />
                             </t:template>
