@@ -1226,20 +1226,20 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AcceptanceType/BusinessOffice/@sap:label}"
-                            sortProperty="BusinessOffice"
-                            filterProperty="BusinessOffice"
+                            label="{/#AcceptanceType/BusinessOfficeText/@sap:label}"
+                            sortProperty="BusinessOfficeText"
+                            filterProperty="BusinessOfficeText"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"BusinessOffice", "leadingProperty":"BusinessOffice", "sortProperty":"BusinessOffice", "filterProperty": "BusinessOffice"}'
+                                    value='\{"columnKey":"BusinessOfficeText", "leadingProperty":"BusinessOfficeText", "sortProperty":"BusinessOfficeText", "filterProperty": "BusinessOfficeText"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{BusinessOffice}"
-                                    tooltip="{BusinessOffice}"
+                                    text="{BusinessOfficeText}"
+                                    tooltip="{BusinessOfficeText}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1288,6 +1288,7 @@
                             label="{/#AcceptanceType/GLAccount/@sap:label}"
                             sortProperty="GLAccount"
                             filterProperty="GLAccount"
+                            visible="false"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -1308,6 +1309,7 @@
                             label="{/#AcceptanceType/GLAccountName/@sap:label}"
                             sortProperty="GLAccountName"
                             filterProperty="GLAccountName"
+                            visible="false"
                         >
                             <t:customData>
                                 <core:CustomData

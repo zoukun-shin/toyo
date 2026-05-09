@@ -109,18 +109,7 @@ sap.ui.define([
 				oContext = this.createEntryWithPromise("/PriceDifference",
 				{
 					RecordSequence: iRecordSequence.toString(),
-					OrderNumber: "123123",
-					CompanyCode:"30JT",
-					PaySbu:"MF",
-					TransCode:"001",
-					InvoiceDate: new Date(),
-					Quantity:"10",
-					Unit:"PC",
-					PriceDiff: "12",
-					Amount:"250",
-					Currency:"JPY",
-					DisclosureDivision:"232",
-					Abr:"20"
+					CompanyCode:"30JT"
 
 				});
 				this.byId("idSmartForm").setBindingContext(oContext);

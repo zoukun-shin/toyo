@@ -85,8 +85,8 @@
                 </smartForm:GroupElement>
                 <smartForm:GroupElement>
                     <smartField:SmartField
-                        textLabel="{/#PriceDifferenceType/PaySbu/@sap:label}"
-                        value="{PaySbu}"
+                        textLabel="{/#PriceDifferenceType/BusinessOffice/@sap:label}"
+                        value="{BusinessOffice}"
                     />
                 </smartForm:GroupElement>
             </smartForm:Group>
