@@ -57,17 +57,6 @@ sap.ui.define([
 
 
 		onInputDifference: function (oEvent,sMode) {
-			// // 校验选择的行
-			// var oTable = this.byId("reportTable1");
-			// var listItems = oTable.getSelectedIndices();
-			// if (listItems.length === 0) {
-			// 	messages.showError(this._ResourceBundle.getText("msgNoSelect"));
-			// 	return;
-			// }
-			// if (listItems.length > 1) {
-			// 	messages.showError(this._ResourceBundle.getText("msgOnlySelectOne"));
-			// 	return;
-			// }
 			if (!this.Dialog) {
 				var oView = this.getView();
 				if (!this.Dialog) {
@@ -109,9 +98,11 @@ sap.ui.define([
 				oContext = this.createEntryWithPromise("/PriceDifference",
 				{
 					RecordSequence: iRecordSequence.toString(),
+					OrderNumber:"100000",
 					CompanyCode:"30JT"
 
 				});
+				this.byId("idSmartForm").unbindElement(undefined);
 				this.byId("idSmartForm").setBindingContext(oContext);
 			} else if (sMode === "change") {
 				let oRecord = oEvent.getSource().getBindingContext().getObject();
@@ -285,6 +276,7 @@ sap.ui.define([
 				let sPath = that.byId("idSmartForm").getBindingContext().getPath();
 				let oRecord = JSON.parse(oData[sAction].Zzkey);
 				that._oDataModel.setProperty(sPath + "/PriceDiff", oRecord.PRICEDIFF.toString());
+				that._oDataModel.setProperty(sPath + "/Currency", oRecord.CURRENCY.toString());
 			});
 		},
 		deterMaterial: function(){
