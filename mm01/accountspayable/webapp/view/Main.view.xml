@@ -117,7 +117,7 @@
                 header="{i18n>tableHeaderTitle}"
                 placeToolbarInTable="true"
                 beforeRebindTable="onBeforeRebindTable"
-                requestAtLeastFields="APTransactionCodeName"
+                requestAtLeastFields="ItemType,APTransactionCodeName"
             >
                 <smartTable:customToolbar>
                     <OverflowToolbar id="idOverflowToolbar">
@@ -593,6 +593,27 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
+                            label="{/#AccountsPayableType/SupplierInvoiceItemAmount/@sap:label}"
+                            sortProperty="SupplierInvoiceItemAmount"
+                            filterProperty="SupplierInvoiceItemAmount"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"SupplierInvoiceItemAmount", "leadingProperty":"SupplierInvoiceItemAmount", "sortProperty":"SupplierInvoiceItemAmount", "filterProperty": "SupplierInvoiceItemAmount"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'SupplierInvoiceItemAmount',type:'sap.ui.model.odata.type.Decimal'}"
+                                    tooltip="{SupplierInvoiceItemAmount}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
                             label="{/#AccountsPayableType/DifferenceQuantity/@sap:label}"
                             sortProperty="DifferenceQuantity"
                             filterProperty="DifferenceQuantity"
@@ -614,21 +635,21 @@
                         </t:Column>
                         <t:Column
                             width="8rem"
-                            label="{/#AccountsPayableType/SupplierInvoiceItemAmount/@sap:label}"
-                            sortProperty="SupplierInvoiceItemAmount"
-                            filterProperty="SupplierInvoiceItemAmount"
+                            label="{/#AccountsPayableType/DifferenceAmount/@sap:label}"
+                            sortProperty="DifferenceAmount"
+                            filterProperty="DifferenceAmount"
                             hAlign="Right"
                         >
                             <t:customData>
                                 <core:CustomData
                                     key="p13nData"
-                                    value='\{"columnKey":"SupplierInvoiceItemAmount", "leadingProperty":"SupplierInvoiceItemAmount", "sortProperty":"SupplierInvoiceItemAmount", "filterProperty": "SupplierInvoiceItemAmount"}'
+                                    value='\{"columnKey":"DifferenceAmount", "leadingProperty":"DifferenceAmount", "sortProperty":"DifferenceAmount", "filterProperty": "DifferenceAmount"}'
                                 />
                             </t:customData>
                             <t:template>
                                 <Text
-                                    text="{path:'SupplierInvoiceItemAmount',type:'sap.ui.model.odata.type.Decimal'}"
-                                    tooltip="{SupplierInvoiceItemAmount}"
+                                    text="{path:'DifferenceAmount',type:'sap.ui.model.odata.type.Decimal'}"
+                                    tooltip="{DifferenceAmount}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -710,6 +731,27 @@
                                 <Text
                                     text="{path:'BillingQuantity',type:'sap.ui.model.odata.type.Decimal'}"
                                     tooltip="{BillingQuantity}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AccountsPayableType/NetAmount/@sap:label}"
+                            sortProperty="NetAmount"
+                            filterProperty="NetAmount"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"NetAmount", "leadingProperty":"NetAmount", "sortProperty":"NetAmount", "filterProperty": "NetAmount"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'NetAmount',type:'sap.ui.model.odata.type.Decimal'}"
+                                    tooltip="{NetAmount}"
                                     wrapping="false"
                                 />
                             </t:template>
