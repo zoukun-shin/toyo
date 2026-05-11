@@ -33,6 +33,14 @@
           "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "2.0"
         }
+      },
+      "API_CV_ATTACHMENT_SRV": {
+        "uri": "/sap/opu/odata/sap/API_CV_ATTACHMENT_SRV/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/S4/API_CV_ATTACHMENT_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
       }
     },
     "crossNavigation": {
@@ -88,6 +96,14 @@
         "dataSource": "mainService",
         "preload": true,
         "settings": {}
+      },
+      "Attach": {
+        "dataSource": "API_CV_ATTACHMENT_SRV",
+        "preload": true,
+        "settings": {
+          "defaultCountMode": "Inline",
+          "useBatch":false
+        }
       }
     },
     "resources": {
@@ -135,5 +151,8 @@
   "sap.cloud": {
     "public": true,
     "service": "mm01"
+  },
+  "sap.platform.cf": {
+    "ui5VersionNumber": "1.120.18"
   }
 }

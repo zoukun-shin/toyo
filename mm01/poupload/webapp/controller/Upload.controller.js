@@ -27,6 +27,12 @@ sap.ui.define([
 
             // activate automatic message generation for complete view
             Messaging.registerObject(this.getView(), true);
+
+            var oUploadSet = this.byId("idUploadSet");
+            var sPath = "Attach>/A_DocumentInfoRecordAttch(DocumentInfoRecordDocType='" + "SAT" +
+                 "',DocumentInfoRecordDocNumber='" + "MM003" + "',DocumentInfoRecordDocVersion='" +
+                 "00" + "',DocumentInfoRecordDocPart='" + "000" + "')";
+             oUploadSet.bindElement(sPath);
         },
 
         _initialize: function () {
