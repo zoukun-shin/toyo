@@ -98,6 +98,18 @@ sap.ui.define([
             // }.bind(this));
         },
 
+        getMediaUrl: function (sUrlString) {
+            if (sUrlString) {
+                var sUrl = new URL(sUrlString);
+                var iStart = sUrl.href.indexOf(sUrl.origin);
+                var sPath = sUrl.href.substring(iStart + sUrl.origin.length, sUrl.href.length);
+                //return "/S4" + sPath;
+                return jQuery.sap.getModulePath("mm.poupload") + sPath;
+            } else {
+                return "";
+            }
+        },
+
         onFileChange: function (oEvent) {
             var aExcelSet = [];
             var oFile = oEvent.getParameter("files")[0];
