@@ -1,0 +1,77 @@
+_schema-version: "3.2"
+ID: fi01
+description: UI5 Application for FI
+version: 0.0.1
+modules:
+- name: fi01-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: fi01-destination-service
+    parameters:
+      content-target: true
+  - name: fi01-repo-host
+    parameters:
+      service-key:
+        name: fi01-repo-host-key
+  - name: fi01-auth
+    parameters:
+      service-key:
+        name: fi01-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: fi01_html_repo_host
+          ServiceInstanceName: fi01-html5-service
+          ServiceKeyName: fi01-repo-host-key
+          sap.cloud.service: fi01
+        - Authentication: OAuth2UserTokenExchange
+          Name: fi01_auth
+          ServiceInstanceName: fi01-xsuaa-service
+          ServiceKeyName: fi01-auth-key
+          sap.cloud.service: fi01
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+resources:
+- name: fi01-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: fi01-destination-service
+    service-plan: lite
+- name: fi01-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      oauth2-configuration:
+        credential-types:
+        - binding-secret
+        - x509
+      tenant-mode: dedicated
+      xsappname: fi01-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: fi01-xsuaa-service
+    service-plan: application
+- name: fi01-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: fi01-html5-service
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
