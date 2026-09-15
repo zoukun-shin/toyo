@@ -33,6 +33,30 @@ modules:
         existing_destinations_policy: update
   build-parameters:
     no-source: true
+- name: co01-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: co01-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - costandardcost.zip
+      name: costandardcost
+      target-path: resources/
+- name: costandardcost
+  type: html5
+  path: standardcost
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
 - name: co01-destination-service
   type: org.cloudfoundry.managed-service
