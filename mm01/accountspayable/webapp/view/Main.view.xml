@@ -42,7 +42,6 @@
                         entitySet="AccountsPayable"
                         useToolbar="false"
                         class="sapUiResponsiveMargin"
-                        search="onSearch"
                     >
                         <smartFilterBar:controlConfiguration>
                             <smartFilterBar:ControlConfiguration
