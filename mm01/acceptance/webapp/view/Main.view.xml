@@ -1288,7 +1288,6 @@
                             label="{/#AcceptanceType/GLAccount/@sap:label}"
                             sortProperty="GLAccount"
                             filterProperty="GLAccount"
-                            visible="false"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -1309,7 +1308,6 @@
                             label="{/#AcceptanceType/GLAccountName/@sap:label}"
                             sortProperty="GLAccountName"
                             filterProperty="GLAccountName"
-                            visible="false"
                         >
                             <t:customData>
                                 <core:CustomData
@@ -1321,6 +1319,46 @@
                                 <Text
                                     text="{GLAccountName}"
                                     tooltip="{GLAccountName}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/PaymentTerms/@sap:label}"
+                            sortProperty="PaymentTerms"
+                            filterProperty="PaymentTerms"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"PaymentTerms", "leadingProperty":"PaymentTerms", "sortProperty":"PaymentTerms", "filterProperty": "PaymentTerms"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{PaymentTerms}"
+                                    tooltip="{PaymentTerms}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/CostCenter/@sap:label}"
+                            sortProperty="CostCenter"
+                            filterProperty="CostCenter"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"CostCenter", "leadingProperty":"CostCenter", "sortProperty":"CostCenter", "filterProperty": "CostCenter"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CostCenter}"
+                                    tooltip="{CostCenter}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -1381,6 +1419,66 @@
                                 <Text
                                     text="{PricingDateControl}"
                                     tooltip="{PricingDateControl}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/MaterialDocumentYear/@sap:label}"
+                            sortProperty="MaterialDocumentYear"
+                            filterProperty="MaterialDocumentYear"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"MaterialDocumentYear", "leadingProperty":"MaterialDocumentYear", "sortProperty":"MaterialDocumentYear", "filterProperty": "MaterialDocumentYear"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocumentYear}"
+                                    tooltip="{MaterialDocumentYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/MaterialDocument/@sap:label}"
+                            sortProperty="MaterialDocument"
+                            filterProperty="MaterialDocument"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"MaterialDocument", "leadingProperty":"MaterialDocument", "sortProperty":"MaterialDocument", "filterProperty": "MaterialDocument"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocument}"
+                                    tooltip="{MaterialDocument}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{/#AcceptanceType/MaterialDocumentItem/@sap:label}"
+                            sortProperty="MaterialDocumentItem"
+                            filterProperty="MaterialDocumentItem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"MaterialDocumentItem", "leadingProperty":"MaterialDocumentItem", "sortProperty":"MaterialDocumentItem", "filterProperty": "MaterialDocumentItem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocumentItem}"
+                                    tooltip="{MaterialDocumentItem}"
                                     wrapping="false"
                                 />
                             </t:template>

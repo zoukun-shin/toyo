@@ -16,6 +16,10 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("mm.acceptance.controller.Main", {
+		_sCurrentTab: "material",
+		_oMaterialContext: null,
+		_oGLContext: null,
+
 		onInit() {
 			// this._LocalData = this.getOwnerComponent().getModel("local");
 			this._oDataModel = this.getOwnerComponent().getModel();
@@ -35,28 +39,18 @@ sap.ui.define([
 		},
 
 		changeDetail: function (sPath) {
-			// let oView = this.getView();
-			// oView.bindElement({
-			// 	path: sPath,
-			// 	events: {
-			// 		dataRequested: function (oEvent) {
-			// 			oView.setBusy(true);
-			// 		},
-			// 		dataReceived: function (oEvent) {
-			// 			oView.setBusy(false);
-			// 		}.bind(this)
-			// 	}
-			// });
-			//如果绑定了createEntry 创建的context 不单独对每个控件绑定的话 无法更新绑定
 			this.byId("idSmartForm").bindElement({
 				path: sPath
 			});
-			// this._LocalData.setProperty("/viewEditable",false);
-
 		},
 
-
 		onInputDifference: function (oEvent,sMode) {
+			this._oEvent = oEvent;
+			this._sMode = sMode;
+			// 清空缓存和 pending changes，防止显示上次的数据
+			this._oMaterialContext = null;
+			this._oGLContext = null;
+			this._oDataModel.resetChanges();
 			if (!this.Dialog) {
 				var oView = this.getView();
 				if (!this.Dialog) {
@@ -66,89 +60,127 @@ sap.ui.define([
 						controller: this
 					}).then(function (oDialog) {
 						this.getView().addDependent(oDialog);
-						// oDialog.setModel(oView.getModel());
 						return oDialog;
 					}.bind(this));
 				}
 			}
 			this.Dialog.then(function (oDialog) {
-				this.bindingSmartform(oEvent,sMode);
+				if (sMode === "change") {
+					let oRecord = oEvent.getSource().getBindingContext().getObject();
+					if (oRecord.GLAccount) {
+						this._sCurrentTab = "glAccount";
+						this.byId("idTabMaterial").setVisible(false);
+						this.byId("idTabGLAccount").setVisible(true);
+						this.byId("idIconTabBar").setSelectedKey("glAccount");
+					} else {
+						this._sCurrentTab = "material";
+						this.byId("idTabMaterial").setVisible(true);
+						this.byId("idTabGLAccount").setVisible(false);
+						this.byId("idIconTabBar").setSelectedKey("material");
+					}
+				} else {
+					// create 模式：两个页签都可见
+					this._sCurrentTab = "material";
+					this.byId("idTabMaterial").setVisible(true);
+					this.byId("idTabGLAccount").setVisible(true);
+					this.byId("idIconTabBar").setSelectedKey("material");
+				}
+				this.bindingSmartform(this._oEvent,this._sMode);
 				oDialog.open();
 			}.bind(this));
+		},
+
+		onTabSelect: function (oEvent) {
+			this._sCurrentTab = oEvent.getParameter("key");
+			this.bindingSmartform(this._oEvent, this._sMode);
 		},
 
 		onDialogClose: function () {
 			Messaging.removeAllMessages();
 			this._oDataModel.resetChanges();
-			this._oDataModel.refresh(true);
+			this._oMaterialContext = null;
+			this._oGLContext = null;
 			this.byId("idDialog").close();
 		},
 
 		onDialogConfirm: function () {
-			//写确认之后的业务逻辑
 			this.onSave();
 		},
 
 		async bindingSmartform (oEvent,sMode) {
-			let iRecordSequence = await this.getNewRecordSequence();
+			let sSmartFormId;
+			let sGroupId;
+			if (this._sCurrentTab === "glAccount") {
+				sSmartFormId = "idSmartFormGL";
+				sGroupId = "glAccount";
+			} else {
+				sSmartFormId = "idSmartForm";
+				sGroupId = "material";
+			}
 
-			let oContext;
-			this._oDataModel.setDeferredGroups(["changes","group1"]);
 			if (sMode === "create") {
-				oContext = this.createEntryWithPromise("/PriceDifference",
-				{
-					RecordSequence: iRecordSequence.toString(),
-					OrderNumber:"100000",
-					CompanyCode:"30JT"
+				let oCachedContext;
+				if (sGroupId === "glAccount") {
+					oCachedContext = this._oGLContext;
+				} else {
+					oCachedContext = this._oMaterialContext;
+				}
 
-				});
-				this.byId("idSmartForm").unbindElement(undefined);
-				this.byId("idSmartForm").setBindingContext(oContext);
+				if (oCachedContext) {
+					this.byId(sSmartFormId).unbindElement(undefined);
+					this.byId(sSmartFormId).setBindingContext(oCachedContext);
+				} else {
+					let iRecordSequence = await this.getNewRecordSequence();
+					let oContext;
+					let sEntitySet = sGroupId === "glAccount" ? "/PriceDifferenceGL" : "/PriceDifference";
+					oContext = this._oDataModel.createEntry(sEntitySet, {
+						groupId: sGroupId,
+						properties: {
+							RecordSequence: iRecordSequence.toString(),
+							OrderNumber: "100000",
+							CompanyCode: "30JT"
+						}
+					});
+					if (sGroupId === "glAccount") {
+						this._oGLContext = oContext;
+					} else {
+						this._oMaterialContext = oContext;
+					}
+					this.byId(sSmartFormId).unbindElement(undefined);
+					this.byId(sSmartFormId).setBindingContext(oContext);
+				}
 			} else if (sMode === "change") {
 				let oRecord = oEvent.getSource().getBindingContext().getObject();
-				let sPath = this._oDataModel.createKey("/PriceDifference",{RecordSequence:oRecord.RecordSequence});
-				this._oDataModel.setDeferredGroups(["changes","group1"]);
-				this.byId("idSmartForm").bindElement(sPath);
+				let sEntitySet = sGroupId === "glAccount" ? "/PriceDifferenceGL" : "/PriceDifference";
+				let sPath = this._oDataModel.createKey(sEntitySet,{RecordSequence:oRecord.RecordSequence});
+				this.byId(sSmartFormId).bindElement(sPath);
 			}
-			
-		},
-
-		//实际没有使用promise
-		createEntryWithPromise: function (sPath, line) {
-			// let oContext = {};
-			// let promise = new Promise(function (resolve, reject) {
-			var mParameters = {
-				groupId: "group1",
-				properties: line,
-				// inactive: true,
-				success: function (oData) {
-					this.addMessages("S", this._ResourceBundle.getText("msg01"));
-					this._BusyDialog.close();
-					this.byId("idDialog").close();
-				}.bind(this),
-				error: function (oError) {
-					messages.showError(messages.parseErrors(oError));
-					this._BusyDialog.close();
-				}.bind(this),
-			};
-			var oContext = this._oDataModel.createEntry(sPath, mParameters);
-			// }.bind(this));
-			return oContext;
 		},
 
 		onSave: function () {
 			var that = this;
 			Messaging.removeAllMessages();
-			this.byId("idSmartForm").check();
+
+			let sSmartFormId;
+			if (this._sCurrentTab === "glAccount") {
+				sSmartFormId = "idSmartFormGL";
+			} else {
+				sSmartFormId = "idSmartForm";
+			}
+			this.byId(sSmartFormId).check();
 
 			if (this.isExistError()) {
-				return
+				return;
 			}
+
 			this._BusyDialog.open();
-			this._oDataModel.submitChanges({ 
-				// groupId: "group1",
+			this._oDataModel.submitChanges({
 				success:function() {
 					that._BusyDialog.close();
+					that._oMaterialContext = null;
+					that._oGLContext = null;
+					that.byId("idDialog").close();
+					that.byId("idSmartTable").rebindTable(false);
 				},
 				error: function() {
 					that._BusyDialog.close();
@@ -168,9 +200,7 @@ sap.ui.define([
 			var oModel = this._oDataModel;
 			oModel.callFunction(`/${sAction}`, {
 				method: "POST",
-				// groupId: "myId",//如果设置groupid，会多条一起进入action
 				changeSetId: 1,
-				//建议只传输前端修改的参数，其他字段从后端获取
 				urlParameters: {
 					Event: sEvent,
 					Zzkey: postData
@@ -181,18 +211,12 @@ sap.ui.define([
 						this.addMessages(line.TYPE,line.MESSAGE);
 					},this);
 					this._BusyDialog.close();
-					// this.getModel().refresh();
 				}.bind(this),
 				error: function (oError) {
-					// if (sAction !== "deletePR") { // ADD BY XINLEI XU 2025/04/22 CR#4359
-					// 	this._LocalData.setProperty("/recordCheckSuccessed", false);
-					// }
 					messages.showError(messages.parseErrors(oError));
 					this._BusyDialog.close();
-					// this.getModel().refresh();
 				}.bind(this)
 			});
-			// oModel.submitChanges({ groupId: "myId" });
 		},
 		addMessages: function(sType,sMessage) {
 			let sMessageType;
@@ -210,7 +234,7 @@ sap.ui.define([
 				new Message({
 					message: sMessage,
 					type: sMessageType,
-					processor: this.getView().getModel(this.sModelName) //对应的Model
+					processor: this.getView().getModel(this.sModelName)
 				})
 			);
 		},
@@ -222,8 +246,12 @@ sap.ui.define([
 
 				if ( line.PurchaseOrder !== "" ) {
 					iItemAmount = line.APAmountExclTax;
-					iQuantity = line.OrderQuantity;
+					iQuantity = line.AcceptanceQuantity;
 					sQuantityUnit = line.PurchaseOrderQuantityUnit;
+				} else if ( line.GLAccount ) {
+					iItemAmount = line.PriceDifference;
+					iQuantity = line.DifferenceQuantity;
+					sQuantityUnit = line.BaseUnit;
 				} else {
 					iItemAmount = line.APAmountExclTax;
 					iQuantity = line.DifferenceQuantity;
@@ -235,7 +263,6 @@ sap.ui.define([
 					Plant: line.Plant,
 					Material: line.Material,
 					Supplier: line.Supplier,
-					// PostingDate: line.DocumentDate,
 					DocumentCurrency: line.DocumentCurrency,
 					PurchaseOrder: line.PurchaseOrder,
 					PurchaseOrderItem: line.PurchaseOrderItem,
@@ -247,7 +274,14 @@ sap.ui.define([
 					TaxCode: line.TaxCode,
 					APTransactionCode: line.APTransactionCode,
 					APTransactionCodeName: line.APTransactionCodeName,
-
+					AccountAssignmentCategory : line.AccountAssignmentCategory,
+					MaterialDocumentYear: line.MaterialDocumentYear,
+					MaterialDocument: line.MaterialDocument,
+					MaterialDocumentItem: line.MaterialDocumentItem,
+					AcceptanceDate: line.AcceptanceDate,
+					GLAccount: line.GLAccount,
+					CostCenter: line.CostCenter,
+					PaymentTerms: line.PaymentTerms
 				});
 			})
 			return JSON.stringify(aPostData);
@@ -260,6 +294,10 @@ sap.ui.define([
 		onChangeMaterial: function(oEvent){
 			this.getUnitPrice();
 			this.deterMaterial();
+		},
+
+		onChangeGLAccount: function(oEvent){
+			this.deterGLAccount();
 		},
 
 		getUnitPrice: function(){
@@ -298,16 +336,28 @@ sap.ui.define([
 				});
 		},
 
+		deterGLAccount: function(){
+			let that = this;
+			let sAction = "deterGLAccount";
+			let oRecord = this.byId("idSmartFormGL").getBindingContext().getObject();
+			let postData = {
+				GLAccount: oRecord.GLAccount
+			}
+			this.determination(sAction,JSON.stringify(postData))
+				.then(function(oData){
+					let sPath = that.byId("idSmartFormGL").getBindingContext().getPath();
+					let oRecord = JSON.parse(oData[sAction].Zzkey);
+					that._oDataModel.setProperty(sPath + "/GLAccountName", oRecord.GLACCOUNTNAME);
+				});
+		},
+
 		determination:function(sAction,postData) {
 			let that = this;
 			return new Promise(function(resolve,reject) {
 				that._oDataModel.callFunction(`/${sAction}`, {
 					method: "POST",
-					// groupId: "myId",//如果设置groupid，会多条一起进入action
 					changeSetId: 1,
-					//建议只传输前端修改的参数，其他字段从后端获取
 					urlParameters: {
-						// Event: sEvent,
 						Zzkey: postData
 					},
 					success: function (oData) {
@@ -325,7 +375,6 @@ sap.ui.define([
 			let that = this;
 			return new Promise(function(resolve, reject){
 				var mParameters = {
-					// filters: aFilter,
 					sorters: [
 						new sap.ui.model.Sorter("RecordSequence", true)
 					],
@@ -351,12 +400,9 @@ sap.ui.define([
 
 		getSelectedRows: function (oEvent) {
 			var that = this;
-			// 获取按钮的上下文
 			var oButton = oEvent.getSource();
 
-			// 获取按钮所在的表格（假设是 sap.ui.table.Table）
 			var oTable = oButton.getParent();
-			// 遍历父控件找到 SmartTable 控件
 			while (oTable && !(oTable instanceof sap.ui.table.Table || oTable instanceof sap.m.Table)) {
 				oTable = oTable.getParent();
 				if (oTable instanceof sap.ui.comp.smarttable.SmartTable) {
@@ -368,27 +414,22 @@ sap.ui.define([
 					break;
 				}
 			}
-			// 确保找到了表格控件
 			if (!oTable) {
 				console.log("未找到表格控件");
 				return;
 			}
 
-			// 获取选中的行索引
 			var aSelectedIndices = oTable.getSelectedIndices();
 
 			if (aSelectedIndices.length === 0) {
-				messages.showError(this._ResourceBundle.getText("msgNoSelect"));//明細行を選択してください
+				messages.showError(this._ResourceBundle.getText("msgNoSelect"));
 				return [];
 			}
 
-			// 获取表格绑定的模型
 			var oModel = oTable.getModel();
 
-			// 存储选中的行数据
 			var aSelectedData = [];
 
-			// 遍历选中的行索引，获取行数据
 			aSelectedIndices.forEach(function (iIndex) {
 				var oContext = oTable.getContextByIndex(iIndex);
 				var oRowData = oModel.getProperty(oContext.getPath());
