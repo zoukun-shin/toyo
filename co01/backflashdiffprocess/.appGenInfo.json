@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Tue Sep 22 2026 10:24:45 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "https://my429321.s4hana.cloud.sap/sap/opu/odata/sap/ZUI_BACKFLUSH_DIFF_O2",
+    "appName": "backflashdiffprocess",
+    "appTitle": "バックフラッシュ差異処理プラットフォーム",
+    "appDescription": "バックフラッシュ差異処理プラットフォーム",
+    "appNamespace": "co",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.136.22",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.32.0",
+    "template": "Basic V2",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}
