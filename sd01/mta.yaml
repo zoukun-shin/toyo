@@ -55,13 +55,6 @@ resources:
 - name: sd01-auth
   type: org.cloudfoundry.managed-service
   parameters:
-    config:
-      oauth2-configuration:
-        credential-types:
-        - binding-secret
-        - x509
-      tenant-mode: dedicated
-      xsappname: sd01-${org}-${space}
     path: ./xs-security.json
     service: xsuaa
     service-name: sd01-xsuaa-service

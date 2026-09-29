@@ -1,4 +1,6 @@
 {
+  "xsappname": "co01",
+  "tenant-mode": "dedicated",
   "description": "Security profile of called application",
   "scopes": [],
   "attributes": [],

@@ -58,7 +58,6 @@ modules:
     build-result: dist
     builder: custom
     commands:
-    - npm install
     - npm run build:cf
     supported-platforms: []
 - name: cobackflashdiffprocess
@@ -68,7 +67,6 @@ modules:
     build-result: dist
     builder: custom
     commands:
-    - npm install
     - npm run build:cf
     supported-platforms: []
 resources:
@@ -93,13 +91,6 @@ resources:
 - name: co01-auth
   type: org.cloudfoundry.managed-service
   parameters:
-    config:
-      oauth2-configuration:
-        credential-types:
-        - binding-secret
-        - x509
-      tenant-mode: dedicated
-      xsappname: co01-${org}-${space}
     path: ./xs-security.json
     service: xsuaa
     service-name: co01-xsuaa-service
