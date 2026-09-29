@@ -1,6 +1,449 @@
-<mvc:View controllerName="co.standardcost.controller.Main"
+<mvc:View
+    controllerName="co.standardcost.controller.Main"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:unified="sap.ui.unified"
+    xmlns:t="sap.ui.table"
+    xmlns:rm="sap.ui.table.rowmodes"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-    </Page>
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:sv="sap.ui.comp.smartvariants"
+    xmlns:smartField="sap.ui.comp.smartfield"
+    height="100%"
+    busyIndicatorDelay="0"
+>
+    <f:DynamicPage
+        id="idDynamicPage"
+        showFooter="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <sv:SmartVariantManagement
+                        id="idSmartVariantManagement"
+                        showShare="true"
+                        persistencyKey="reportAcceptanceFilter"
+                        showExecuteOnSelection="true"
+                        entitySet="CostComponent"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="idDynamicPageHeader">
+                <f:content>
+                    <smartFilterBar:SmartFilterBar
+                        id="idSmartFilterBar"
+                        smartVariant="idSmartVariantManagement"
+                        persistencyKey="reportAccountsPayable"
+                        entitySet="CostComponent"
+                        useToolbar="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="CompanyCode"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>CompanyCode}"
+                                mandatory="notMandatory"
+                                index="1"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="Plant"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>Plant}"
+                                mandatory="notMandatory"
+                                index="2"
+                            />
+                            
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalYear"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>fiscalYear}"
+                                mandatory="notMandatory"
+                                index="3"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalPeriod"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>fiscalPeriod}"
+                                mandatory="notMandatory"
+                                index="4"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="Product"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>Product}"
+                                mandatory="notMandatory"
+                                index="5"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="ValuationClass"
+                                visibleInAdvancedArea="true"
+                                label="{i18n>ValuationClass}"
+                                mandatory="notMandatory"
+                                index="6"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                    </smartFilterBar:SmartFilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smartTable:SmartTable
+                id="idSmartTable"
+                entitySet="CostComponent"
+                smartFilterId="idSmartFilterBar"
+                smartVariant="idSmartVariantManagement"
+                persistencyKey="reportSmartTable"
+                header="{i18n>tableHeaderTitle}"
+                placeToolbarInTable="true"
+                beforeRebindTable="onBeforeRebindTable"
+                requestAtLeastFields=""
+            >
+                <smartTable:customToolbar>
+                    <OverflowToolbar id="idOverflowToolbar">
+                        <ToolbarSpacer id="idToolbarSpacer" />
+                    </OverflowToolbar>
+                </smartTable:customToolbar>
+                <t:Table
+                    id="reportTable1"
+                    selectionMode="Multi"
+                    class="sapUiSizeCompact"
+                    rowsUpdated="onRowsUpdated"
+                >
+                    <t:rowMode>
+                        <rm:Auto id="idAuto" />
+                    </t:rowMode>
+                    <t:columns>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>CompanyCode}"
+                            sortProperty="CompanyCode"
+                            filterProperty="CompanyCode"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"CompanyCode", "leadingProperty":"CompanyCode", "sortProperty":"CompanyCode", "filterProperty": "CompanyCode"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CompanyCode}"
+                                    tooltip="{CompanyCode}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>Product}"
+                            sortProperty="Product"
+                            filterProperty="Product"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"Product", "leadingProperty":"Product", "sortProperty":"Product", "filterProperty": "Product"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Product}"
+                                    tooltip="{Product}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>ProductDescription}"
+                            sortProperty="ProductDescription"
+                            filterProperty="ProductDescription"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ProductDescription", "leadingProperty":"ProductDescription", "sortProperty":"ProductDescription", "filterProperty": "ProductDescription"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ProductDescription}"
+                                    tooltip="{ProductDescription}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>fiscalYear}"
+                            sortProperty="FiscalYear"
+                            filterProperty="FiscalYear"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"FiscalYear", "leadingProperty":"FiscalYear", "sortProperty":"FiscalYear", "filterProperty": "FiscalYear"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalYear}"
+                                    tooltip="{FiscalYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>fiscalPeriod}"
+                            sortProperty="FiscalPeriod"
+                            filterProperty="FiscalPeriod"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"FiscalPeriod", "leadingProperty":"FiscalPeriod", "sortProperty":"FiscalPeriod", "filterProperty": "FiscalPeriod"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalPeriod}"
+                                    tooltip="{FiscalPeriod}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>Plant}"
+                            sortProperty="Plant"
+                            filterProperty="Plant"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"Plant", "leadingProperty":"Plant", "sortProperty":"Plant", "filterProperty": "Plant"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Plant}"
+                                    tooltip="{Plant}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>PlantName}"
+                            sortProperty="PlantName"
+                            filterProperty="PlantName"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"PlantName", "leadingProperty":"PlantName", "sortProperty":"PlantName", "filterProperty": "PlantName"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{PlantName}"
+                                    tooltip="{PlantName}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>ValuationClass}"
+                            sortProperty="ValuationClass"
+                            filterProperty="ValuationClass"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ValuationClass", "leadingProperty":"ValuationClass", "sortProperty":"ValuationClass", "filterProperty": "ValuationClass"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ValuationClass}"
+                                    tooltip="{ValuationClass}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="12rem"
+                            label="{i18n>ValuationClassDescription}"
+                            sortProperty="ValuationClassDescription"
+                            filterProperty="ValuationClassDescription"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ValuationClassDescription", "leadingProperty":"ValuationClassDescription", "sortProperty":"ValuationClassDescription", "filterProperty": "ValuationClassDescription"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ValuationClassDescription}"
+                                    tooltip="{ValuationClassDescription}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="10rem"
+                            label="{i18n>StandardCost}"
+                            sortProperty="StandardCost"
+                            filterProperty="StandardCost"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"StandardCost", "leadingProperty":"StandardCost", "sortProperty":"StandardCost", "filterProperty": "StandardCost"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{
+                                        path: 'StandardCost',
+                                        type: 'sap.ui.model.odata.type.Decimal',
+                                        formatOptions: {
+                                            minFractionDigits: 2,
+                                            maxFractionDigits: 2
+                                        }
+                                    }"
+                                    tooltip="{StandardCost}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="14rem"
+                            label="{i18n>TotalCostInCompanyCodeCurrency}"
+                            sortProperty="TotalCostInCompanyCodeCurrency"
+                            filterProperty="TotalCostInCompanyCodeCurrency"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"TotalCostInCompanyCodeCurrency", "leadingProperty":"TotalCostInCompanyCodeCurrency", "sortProperty":"TotalCostInCompanyCodeCurrency", "filterProperty": "TotalCostInCompanyCodeCurrency"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{
+                                        path: 'TotalCostInCompanyCodeCurrency',
+                                        type: 'sap.ui.model.odata.type.Decimal',
+                                        formatOptions: {
+                                            minFractionDigits: 2,
+                                            maxFractionDigits: 2
+                                        }
+                                    }"
+                                    tooltip="{TotalCostInCompanyCodeCurrency}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="14rem"
+                            label="{i18n>FixedCostInCompanyCodeCurrency}"
+                            sortProperty="FixedCostInCompanyCodeCurrency"
+                            filterProperty="FixedCostInCompanyCodeCurrency"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"FixedCostInCompanyCodeCurrency", "leadingProperty":"FixedCostInCompanyCodeCurrency", "sortProperty":"FixedCostInCompanyCodeCurrency", "filterProperty": "FixedCostInCompanyCodeCurrency"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{
+                                        path: 'FixedCostInCompanyCodeCurrency',
+                                        type: 'sap.ui.model.odata.type.Decimal',
+                                        formatOptions: {
+                                            minFractionDigits: 2,
+                                            maxFractionDigits: 2
+                                        }
+                                    }"
+                                    tooltip="{FixedCostInCompanyCodeCurrency}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>CompanyCodeCurrency}"
+                            sortProperty="CompanyCodeCurrency"
+                            filterProperty="CompanyCodeCurrency"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"CompanyCodeCurrency", "leadingProperty":"CompanyCodeCurrency", "sortProperty":"CompanyCodeCurrency", "filterProperty": "CompanyCodeCurrency"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CompanyCodeCurrency}"
+                                    tooltip="{CompanyCodeCurrency}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column
+                            width="8rem"
+                            label="{i18n>ValuationQuantityUnit}"
+                            sortProperty="ValuationQuantityUnit"
+                            filterProperty="ValuationQuantityUnit"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ValuationQuantityUnit", "leadingProperty":"ValuationQuantityUnit", "sortProperty":"ValuationQuantityUnit", "filterProperty": "ValuationQuantityUnit"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ValuationQuantityUnit}"
+                                    tooltip="{ValuationQuantityUnit}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        
+                    </t:columns>
+                </t:Table>
+            </smartTable:SmartTable>
+        </f:content>
+        <!-- <f:footer>
+            <OverflowToolbar
+                id="id0OverflowToolbar"
+                visible="{= ${message>/}.length > 0}"
+            >
+                <Button
+                    id="idButton"
+                    icon="sap-icon://alert"
+                    text="{= ${message>/}.length }"
+                    visible="{= ${message>/}.length > 0}"
+                    type="Emphasized"
+                    press="onMessagePopoverPress"
+                />
+            </OverflowToolbar>
+        </f:footer> -->
+    </f:DynamicPage>
 </mvc:View>
