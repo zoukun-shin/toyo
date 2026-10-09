@@ -51,6 +51,10 @@ modules:
       - cobackflashdiffprocess.zip
       name: cobackflashdiffprocess
       target-path: resources/
+    - artifacts:
+      - cosupplierstockdiff.zip
+      name: cosupplierstockdiff
+      target-path: resources/
 - name: costandardcost
   type: html5
   path: standardcost
@@ -63,6 +67,15 @@ modules:
 - name: cobackflashdiffprocess
   type: html5
   path: backflashdiffprocess
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm run build:cf
+    supported-platforms: []
+- name: cosupplierstockdiff
+  type: html5
+  path: supplierstockdiff
   build-parameters:
     build-result: dist
     builder: custom
