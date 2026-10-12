@@ -52,8 +52,13 @@ modules:
       name: cobackflashdiffprocess
       target-path: resources/
     - artifacts:
+<<<<<<< Updated upstream
       - cosupplierstockdiff.zip
       name: cosupplierstockdiff
+=======
+      - coprojectplan.zip
+      name: coprojectplan
+>>>>>>> Stashed changes
       target-path: resources/
 - name: costandardcost
   type: html5
@@ -62,6 +67,7 @@ modules:
     build-result: dist
     builder: custom
     commands:
+    - npm install
     - npm run build:cf
     supported-platforms: []
 - name: cobackflashdiffprocess
@@ -71,6 +77,17 @@ modules:
     build-result: dist
     builder: custom
     commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: coprojectplan
+  type: html5
+  path: projectplan
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
     - npm run build:cf
     supported-platforms: []
 - name: cosupplierstockdiff
