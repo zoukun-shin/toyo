@@ -33,6 +33,29 @@ modules:
         existing_destinations_policy: update
   build-parameters:
     no-source: true
+- name: fi01-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: fi01-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - fijournalentryprint.zip
+      name: fijournalentryprint
+      target-path: resources/
+- name: fijournalentryprint
+  type: html5
+  path: journalentryprint
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm run build:cf
+    supported-platforms: []
 resources:
 - name: fi01-destination-service
   type: org.cloudfoundry.managed-service
