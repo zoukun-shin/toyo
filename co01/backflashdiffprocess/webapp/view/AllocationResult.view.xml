@@ -1,0 +1,412 @@
+<mvc:View
+    controllerName="co.backflashdiffprocess.controller.AllocationResult"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:t="sap.ui.table"
+    xmlns:rm="sap.ui.table.rowmodes"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:sv="sap.ui.comp.smartvariants"
+    height="100%"
+    busyIndicatorDelay="0"
+>
+    <f:DynamicPage
+        id="idAllocationDynamicPage"
+        showFooter="false"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idAllocationDynamicPageTitle">
+                <f:heading>
+                    <sv:SmartVariantManagement
+                        id="idAllocationSVM"
+                        showShare="true"
+                        persistencyKey="allocationResultFilter"
+                        showExecuteOnSelection="true"
+                        entitySet="AllocationResult"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="idAllocationDynamicPageHeader">
+                <f:content>
+                    <smartFilterBar:SmartFilterBar
+                        id="idAllocationSmartFilterBar"
+                        smartVariant="idAllocationSVM"
+                        persistencyKey="allocationResult"
+                        entitySet="AllocationResult"
+                        useToolbar="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="CompanyCode"
+                                visibleInAdvancedArea="true"
+                                label="{/#AllocationResultType/CompanyCode/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="1"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="Plant"
+                                visibleInAdvancedArea="true"
+                                label="{/#AllocationResultType/Plant/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="3"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalYear"
+                                visibleInAdvancedArea="true"
+                                label="{/#AllocationResultType/FiscalYear/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="5"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalPeriod"
+                                visibleInAdvancedArea="true"
+                                label="{/#AllocationResultType/FiscalPeriod/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="7"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                    </smartFilterBar:SmartFilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smartTable:SmartTable
+                id="idAllocationSmartTable"
+                entitySet="AllocationResult"
+                smartFilterId="idAllocationSmartFilterBar"
+                smartVariant="idAllocationSVM"
+                persistencyKey="allocationResultSmartTable"
+                requestAtLeastFields="AllocationUuid,MaterialDocument,MaterialDocumentItem,MaterialDocumentYear"
+                header="{i18n>AllocationResultTableTitle}"
+                placeToolbarInTable="true"
+            >
+                <smartTable:customToolbar>
+                    <OverflowToolbar id="idAllocationToolbar">
+                        <ToolbarSpacer id="idAllocationToolbarSpacer" />
+                    </OverflowToolbar>
+                </smartTable:customToolbar>
+                <t:Table
+                    id="allocationResultTable"
+                    selectionMode="None"
+                    class="sapUiSizeCompact"
+                >
+                    <t:rowMode>
+                        <rm:Auto id="idAllocationAuto" />
+                    </t:rowMode>
+                    <t:columns>
+                        <!-- 入出庫伝票 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#AllocationResultType/MaterialDocument/@sap:label}"
+                            sortProperty="MaterialDocument"
+                            filterProperty="MaterialDocument"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"MaterialDocument", "leadingProperty":"MaterialDocument", "sortProperty":"MaterialDocument", "filterProperty": "MaterialDocument"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocument}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 入出庫伝票明細 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#AllocationResultType/MaterialDocumentItem/@sap:label}"
+                            sortProperty="MaterialDocumentItem"
+                            filterProperty="MaterialDocumentItem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialDocumentItem", "leadingProperty":"MaterialDocumentItem", "sortProperty":"MaterialDocumentItem", "filterProperty": "MaterialDocumentItem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocumentItem}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 移動タイプ -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#AllocationResultType/GoodsMovementType/@sap:label}"
+                            sortProperty="GoodsMovementType"
+                            filterProperty="GoodsMovementType"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"GoodsMovementType", "leadingProperty":"GoodsMovementType", "sortProperty":"GoodsMovementType", "filterProperty": "GoodsMovementType"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{GoodsMovementType}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 品目 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#AllocationResultType/Material/@sap:label}"
+                            sortProperty="Material"
+                            filterProperty="Material"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Material", "leadingProperty":"Material", "sortProperty":"Material", "filterProperty": "Material"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Material}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 品目テキスト -->
+                        <t:Column
+                            width="16rem"
+                            label="{/#AllocationResultType/ProductName/@sap:label}"
+                            sortProperty="ProductName"
+                            filterProperty="ProductName"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ProductName", "leadingProperty":"ProductName", "sortProperty":"ProductName", "filterProperty": "ProductName"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ProductName}"
+                                    tooltip="{ProductName}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 会計年度 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#AllocationResultType/FiscalYear/@sap:label}"
+                            sortProperty="FiscalYear"
+                            filterProperty="FiscalYear"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"FiscalYear", "leadingProperty":"FiscalYear", "sortProperty":"FiscalYear", "filterProperty": "FiscalYear"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 期間 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#AllocationResultType/FiscalPeriod/@sap:label}"
+                            sortProperty="FiscalPeriod"
+                            filterProperty="FiscalPeriod"
+                            hAlign="End"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"FiscalPeriod", "leadingProperty":"FiscalPeriod", "sortProperty":"FiscalPeriod", "filterProperty": "FiscalPeriod"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalPeriod}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- プラント -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#AllocationResultType/Plant/@sap:label}"
+                            sortProperty="Plant"
+                            filterProperty="Plant"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Plant", "leadingProperty":"Plant", "sortProperty":"Plant", "filterProperty": "Plant"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Plant}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- プラントテキスト -->
+                        <t:Column
+                            width="16rem"
+                            label="{/#AllocationResultType/PlantName/@sap:label}"
+                            sortProperty="PlantName"
+                            filterProperty="PlantName"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"PlantName", "leadingProperty":"PlantName", "sortProperty":"PlantName", "filterProperty": "PlantName"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{PlantName}"
+                                    tooltip="{PlantName}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 製造指図 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#AllocationResultType/ManufacturingOrder/@sap:label}"
+                            sortProperty="ManufacturingOrder"
+                            filterProperty="ManufacturingOrder"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ManufacturingOrder", "leadingProperty":"ManufacturingOrder", "sortProperty":"ManufacturingOrder", "filterProperty": "ManufacturingOrder"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ManufacturingOrder}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 配賦数量 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#AllocationResultType/AllocationQuantity/@sap:label}"
+                            sortProperty="AllocationQuantity"
+                            filterProperty="AllocationQuantity"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"AllocationQuantity", "leadingProperty":"AllocationQuantity", "sortProperty":"AllocationQuantity", "filterProperty": "AllocationQuantity"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'AllocationQuantity',type:'sap.ui.model.odata.type.Decimal',formatOptions:{groupingEnabled:true}}"
+                                    tooltip="{AllocationQuantity}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 数量単位 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#AllocationResultType/MaterialBaseUnit/@sap:label}"
+                            sortProperty="MaterialBaseUnit"
+                            filterProperty="MaterialBaseUnit"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialBaseUnit", "leadingProperty":"MaterialBaseUnit", "sortProperty":"MaterialBaseUnit", "filterProperty": "MaterialBaseUnit"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialBaseUnit}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 配賦金額 -->
+                        <t:Column
+                            width="11rem"
+                            label="{/#AllocationResultType/AllocationAmount/@sap:label}"
+                            sortProperty="AllocationAmount"
+                            filterProperty="AllocationAmount"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"AllocationAmount", "leadingProperty":"AllocationAmount", "sortProperty":"AllocationAmount", "filterProperty": "AllocationAmount"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'AllocationAmount',type:'sap.ui.model.odata.type.Decimal',formatOptions:{groupingEnabled:true}}"
+                                    tooltip="{AllocationAmount}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 通貨 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#AllocationResultType/CompanyCodeCurrency/@sap:label}"
+                            sortProperty="CompanyCodeCurrency"
+                            filterProperty="CompanyCodeCurrency"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"CompanyCodeCurrency", "leadingProperty":"CompanyCodeCurrency", "sortProperty":"CompanyCodeCurrency", "filterProperty": "CompanyCodeCurrency"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CompanyCodeCurrency}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </smartTable:SmartTable>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

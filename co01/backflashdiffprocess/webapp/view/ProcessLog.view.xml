@@ -1,0 +1,446 @@
+<mvc:View
+    controllerName="co.backflashdiffprocess.controller.ProcessLog"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:t="sap.ui.table"
+    xmlns:rm="sap.ui.table.rowmodes"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:sv="sap.ui.comp.smartvariants"
+    height="100%"
+    busyIndicatorDelay="0"
+>
+    <f:DynamicPage
+        id="idProcessLogDynamicPage"
+        showFooter="false"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idProcessLogDynamicPageTitle">
+                <f:heading>
+                    <sv:SmartVariantManagement
+                        id="idProcessLogSVM"
+                        showShare="true"
+                        persistencyKey="processLogFilter"
+                        showExecuteOnSelection="true"
+                        entitySet="ProcessLog"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="idProcessLogDynamicPageHeader">
+                <f:content>
+                    <smartFilterBar:SmartFilterBar
+                        id="idProcessLogSmartFilterBar"
+                        smartVariant="idProcessLogSVM"
+                        persistencyKey="processLog"
+                        entitySet="ProcessLog"
+                        useToolbar="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="CompanyCode"
+                                visibleInAdvancedArea="true"
+                                label="{/#ProcessLogType/CompanyCode/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="1"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="Plant"
+                                visibleInAdvancedArea="true"
+                                label="{/#ProcessLogType/Plant/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="3"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalYear"
+                                visibleInAdvancedArea="true"
+                                label="{/#ProcessLogType/FiscalYear/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="5"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalPeriod"
+                                visibleInAdvancedArea="true"
+                                label="{/#ProcessLogType/FiscalPeriod/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="7"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                    </smartFilterBar:SmartFilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smartTable:SmartTable
+                id="idProcessLogSmartTable"
+                entitySet="ProcessLog"
+                smartFilterId="idProcessLogSmartFilterBar"
+                smartVariant="idProcessLogSVM"
+                persistencyKey="processLogSmartTable"
+                requestAtLeastFields="LogId,CompanyCode,Plant,FiscalYear,FiscalPeriod"
+                header="{i18n>ProcessLogTableTitle}"
+                placeToolbarInTable="true"
+            >
+                <smartTable:customToolbar>
+                    <OverflowToolbar id="idProcessLogToolbar">
+                        <ToolbarSpacer id="idProcessLogToolbarSpacer" />
+                    </OverflowToolbar>
+                </smartTable:customToolbar>
+                <t:Table
+                    id="processLogTable"
+                    selectionMode="None"
+                    class="sapUiSizeCompact"
+                >
+                    <t:rowMode>
+                        <rm:Auto id="idProcessLogAuto" />
+                    </t:rowMode>
+                    <t:columns>
+                        <!-- 入出庫伝票タイプ -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#ProcessLogType/ActionType/@sap:label}"
+                            sortProperty="ActionType"
+                            filterProperty="ActionType"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"ActionType", "leadingProperty":"ActionType", "sortProperty":"ActionType", "filterProperty": "ActionType"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ActionType}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 入出庫伝票タイプテキスト -->
+                        <t:Column
+                            width="16rem"
+                            label="{/#ProcessLogType/ActionText/@sap:label}"
+                            sortProperty="ActionText"
+                            filterProperty="ActionText"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ActionText", "leadingProperty":"ActionText", "sortProperty":"ActionText", "filterProperty": "ActionText"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ActionText}"
+                                    tooltip="{ActionText}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 会社コード -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/CompanyCode/@sap:label}"
+                            sortProperty="CompanyCode"
+                            filterProperty="CompanyCode"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"CompanyCode", "leadingProperty":"CompanyCode", "sortProperty":"CompanyCode", "filterProperty": "CompanyCode"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CompanyCode}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- プラント -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/Plant/@sap:label}"
+                            sortProperty="Plant"
+                            filterProperty="Plant"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Plant", "leadingProperty":"Plant", "sortProperty":"Plant", "filterProperty": "Plant"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Plant}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 会計年度 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/FiscalYear/@sap:label}"
+                            sortProperty="FiscalYear"
+                            filterProperty="FiscalYear"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"FiscalYear", "leadingProperty":"FiscalYear", "sortProperty":"FiscalYear", "filterProperty": "FiscalYear"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 期間 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/FiscalPeriod/@sap:label}"
+                            sortProperty="FiscalPeriod"
+                            filterProperty="FiscalPeriod"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"FiscalPeriod", "leadingProperty":"FiscalPeriod", "sortProperty":"FiscalPeriod", "filterProperty": "FiscalPeriod"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalPeriod}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 品目 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#ProcessLogType/Material/@sap:label}"
+                            sortProperty="Material"
+                            filterProperty="Material"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Material", "leadingProperty":"Material", "sortProperty":"Material", "filterProperty": "Material"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Material}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 製造指図 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#ProcessLogType/ManufacturingOrder/@sap:label}"
+                            sortProperty="ManufacturingOrder"
+                            filterProperty="ManufacturingOrder"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ManufacturingOrder", "leadingProperty":"ManufacturingOrder", "sortProperty":"ManufacturingOrder", "filterProperty": "ManufacturingOrder"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ManufacturingOrder}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 発注明細 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/ManufacturingOrderItem/@sap:label}"
+                            sortProperty="ManufacturingOrderItem"
+                            filterProperty="ManufacturingOrderItem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ManufacturingOrderItem", "leadingProperty":"ManufacturingOrderItem", "sortProperty":"ManufacturingOrderItem", "filterProperty": "ManufacturingOrderItem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ManufacturingOrderItem}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 入出庫伝票 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#ProcessLogType/MaterialDocument/@sap:label}"
+                            sortProperty="MaterialDocument"
+                            filterProperty="MaterialDocument"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialDocument", "leadingProperty":"MaterialDocument", "sortProperty":"MaterialDocument", "filterProperty": "MaterialDocument"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocument}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 入出庫伝票明細 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/MaterialDocumentItem/@sap:label}"
+                            sortProperty="MaterialDocumentItem"
+                            filterProperty="MaterialDocumentItem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialDocumentItem", "leadingProperty":"MaterialDocumentItem", "sortProperty":"MaterialDocumentItem", "filterProperty": "MaterialDocumentItem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocumentItem}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 入出庫伝票年度 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#ProcessLogType/MaterialDocumentYear/@sap:label}"
+                            sortProperty="MaterialDocumentYear"
+                            filterProperty="MaterialDocumentYear"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialDocumentYear", "leadingProperty":"MaterialDocumentYear", "sortProperty":"MaterialDocumentYear", "filterProperty": "MaterialDocumentYear"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocumentYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- メッセージ -->
+                        <t:Column
+                            width="20rem"
+                            label="{/#ProcessLogType/Message/@sap:label}"
+                            sortProperty="Message"
+                            filterProperty="Message"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Message", "leadingProperty":"Message", "sortProperty":"Message", "filterProperty": "Message"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Message}"
+                                    tooltip="{Message}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 作成者 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#ProcessLogType/CreatedBy/@sap:label}"
+                            sortProperty="CreatedBy"
+                            filterProperty="CreatedBy"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"CreatedBy", "leadingProperty":"CreatedBy", "sortProperty":"CreatedBy", "filterProperty": "CreatedBy"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CreatedBy}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 作成日時 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#ProcessLogType/CreatedAt/@sap:label}"
+                            sortProperty="CreatedAt"
+                            filterProperty="CreatedAt"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"CreatedAt", "leadingProperty":"CreatedAt", "sortProperty":"CreatedAt", "filterProperty": "CreatedAt", "type":"date"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text text="{path:'CreatedAt',type:'sap.ui.model.odata.type.DateTimeOffset',constraints:{precision:0},formatOptions:{style:'medium'}}" />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- ログID（技術キー。列設定で非表示にできる） -->
+                        <t:Column
+                            width="20rem"
+                            label="{/#ProcessLogType/LogId/@sap:label}"
+                            sortProperty="LogId"
+                            filterProperty="LogId"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"LogId", "leadingProperty":"LogId", "sortProperty":"LogId", "filterProperty": "LogId"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{LogId}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </smartTable:SmartTable>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

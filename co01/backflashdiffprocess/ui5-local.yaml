@@ -10,6 +10,9 @@ framework:
   libraries:
     - name: sap.m
     - name: sap.ui.core
+    - name: sap.ui.comp
+    - name: sap.ui.table
+    - name: sap.f
     - name: sap.ushell
     - name: themelib_sap_horizon
 server:
@@ -31,7 +34,7 @@ server:
         ignoreCertErrors: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         backend:
           - path: /sap
-            url: https://my429321.s4hana.cloud.sap
+            url: https://my429321-api.s4hana.cloud.sap
             destination: S4H_STARTER_C
             authenticationType: reentranceTicket # SAML support for vscode
     - name: sap-fe-mockserver

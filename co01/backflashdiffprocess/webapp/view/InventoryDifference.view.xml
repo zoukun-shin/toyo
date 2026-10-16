@@ -1,0 +1,505 @@
+<mvc:View
+    controllerName="co.backflashdiffprocess.controller.InventoryDifference"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:t="sap.ui.table"
+    xmlns:rm="sap.ui.table.rowmodes"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:sv="sap.ui.comp.smartvariants"
+    height="100%"
+    busyIndicatorDelay="0"
+>
+    <f:DynamicPage
+        id="idInventoryDynamicPage"
+        showFooter="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idInventoryDynamicPageTitle">
+                <f:heading>
+                    <sv:SmartVariantManagement
+                        id="idInventorySVM"
+                        showShare="true"
+                        persistencyKey="inventoryDifferenceFilter"
+                        showExecuteOnSelection="true"
+                        entitySet="InventoryDifference"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="idInventoryDynamicPageHeader">
+                <f:content>
+                    <smartFilterBar:SmartFilterBar
+                        id="idInventorySmartFilterBar"
+                        smartVariant="idInventorySVM"
+                        persistencyKey="inventoryDifference"
+                        entitySet="InventoryDifference"
+                        useToolbar="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <smartFilterBar:controlConfiguration>
+                            <smartFilterBar:ControlConfiguration
+                                key="CompanyCode"
+                                visibleInAdvancedArea="true"
+                                label="{/#InventoryDifferenceType/CompanyCode/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="1"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="Plant"
+                                visibleInAdvancedArea="true"
+                                label="{/#InventoryDifferenceType/Plant/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="3"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalYear"
+                                visibleInAdvancedArea="true"
+                                label="{/#InventoryDifferenceType/FiscalYear/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="5"
+                            />
+                            <smartFilterBar:ControlConfiguration
+                                key="FiscalPeriod"
+                                visibleInAdvancedArea="true"
+                                label="{/#InventoryDifferenceType/FiscalPeriod/@sap:label}"
+                                mandatory="mandatory"
+                                filterType="single"
+                                index="7"
+                            />
+                        </smartFilterBar:controlConfiguration>
+                    </smartFilterBar:SmartFilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smartTable:SmartTable
+                id="idInventorySmartTable"
+                entitySet="InventoryDifference"
+                smartFilterId="idInventorySmartFilterBar"
+                smartVariant="idInventorySVM"
+                persistencyKey="inventoryDifferenceSmartTable"
+                requestAtLeastFields="MaterialDocument,MaterialDocumentItem,MaterialDocumentYear,Material"
+                header="{i18n>InventoryDifferenceTableTitle}"
+                placeToolbarInTable="true"
+            >
+                <smartTable:customToolbar>
+                    <OverflowToolbar id="idInventoryToolbar">
+                        <ToolbarSpacer id="idInventoryToolbarSpacer" />
+                        <Button
+                            id="idBtnPosting"
+                            type="Transparent"
+                            text="{i18n>BtnPosting}"
+                            press="onPosting"
+                        />
+                        <Button
+                            id="idBtnCreateJob"
+                            type="Transparent"
+                            text="{i18n>BtnCreateJob}"
+                            press="onCreateJob"
+                        />
+                    </OverflowToolbar>
+                </smartTable:customToolbar>
+                <t:Table
+                    id="inventoryDifferenceTable"
+                    selectionMode="Multi"
+                    class="sapUiSizeCompact"
+                >
+                    <t:rowMode>
+                        <rm:Auto id="idInventoryAuto" />
+                    </t:rowMode>
+                    <t:columns>
+                        <!-- 入出庫伝票 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#InventoryDifferenceType/MaterialDocument/@sap:label}"
+                            sortProperty="MaterialDocument"
+                            filterProperty="MaterialDocument"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='\{"columnKey":"MaterialDocument", "leadingProperty":"MaterialDocument", "sortProperty":"MaterialDocument", "filterProperty": "MaterialDocument"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocument}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 入出庫伝票明細 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/MaterialDocumentItem/@sap:label}"
+                            sortProperty="MaterialDocumentItem"
+                            filterProperty="MaterialDocumentItem"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialDocumentItem", "leadingProperty":"MaterialDocumentItem", "sortProperty":"MaterialDocumentItem", "filterProperty": "MaterialDocumentItem"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialDocumentItem}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 移動タイプ -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/GoodsMovementType/@sap:label}"
+                            sortProperty="GoodsMovementType"
+                            filterProperty="GoodsMovementType"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"GoodsMovementType", "leadingProperty":"GoodsMovementType", "sortProperty":"GoodsMovementType", "filterProperty": "GoodsMovementType"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{GoodsMovementType}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 品目 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#InventoryDifferenceType/Material/@sap:label}"
+                            sortProperty="Material"
+                            filterProperty="Material"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Material", "leadingProperty":"Material", "sortProperty":"Material", "filterProperty": "Material"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Material}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 品目テキスト -->
+                        <t:Column
+                            width="16rem"
+                            label="{/#InventoryDifferenceType/ProductName/@sap:label}"
+                            sortProperty="ProductName"
+                            filterProperty="ProductName"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ProductName", "leadingProperty":"ProductName", "sortProperty":"ProductName", "filterProperty": "ProductName"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ProductName}"
+                                    tooltip="{ProductName}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 会計年度 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/FiscalYear/@sap:label}"
+                            sortProperty="FiscalYear"
+                            filterProperty="FiscalYear"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"FiscalYear", "leadingProperty":"FiscalYear", "sortProperty":"FiscalYear", "filterProperty": "FiscalYear"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalYear}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 期間 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/FiscalPeriod/@sap:label}"
+                            sortProperty="FiscalPeriod"
+                            filterProperty="FiscalPeriod"
+                            hAlign="End"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"FiscalPeriod", "leadingProperty":"FiscalPeriod", "sortProperty":"FiscalPeriod", "filterProperty": "FiscalPeriod"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{FiscalPeriod}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- プラント -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/Plant/@sap:label}"
+                            sortProperty="Plant"
+                            filterProperty="Plant"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"Plant", "leadingProperty":"Plant", "sortProperty":"Plant", "filterProperty": "Plant"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{Plant}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- プラントテキスト -->
+                        <t:Column
+                            width="16rem"
+                            label="{/#InventoryDifferenceType/PlantName/@sap:label}"
+                            sortProperty="PlantName"
+                            filterProperty="PlantName"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"PlantName", "leadingProperty":"PlantName", "sortProperty":"PlantName", "filterProperty": "PlantName"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{PlantName}"
+                                    tooltip="{PlantName}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 製造指図 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#InventoryDifferenceType/ManufacturingOrder/@sap:label}"
+                            sortProperty="ManufacturingOrder"
+                            filterProperty="ManufacturingOrder"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"ManufacturingOrder", "leadingProperty":"ManufacturingOrder", "sortProperty":"ManufacturingOrder", "filterProperty": "ManufacturingOrder"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{ManufacturingOrder}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 差異数量 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#InventoryDifferenceType/DifferenceQuantity/@sap:label}"
+                            sortProperty="DifferenceQuantity"
+                            filterProperty="DifferenceQuantity"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"DifferenceQuantity", "leadingProperty":"DifferenceQuantity", "sortProperty":"DifferenceQuantity", "filterProperty": "DifferenceQuantity"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'DifferenceQuantity',type:'sap.ui.model.odata.type.Decimal',formatOptions:{groupingEnabled:true}}"
+                                    tooltip="{DifferenceQuantity}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 差異金額 -->
+                        <t:Column
+                            width="11rem"
+                            label="{/#InventoryDifferenceType/DifferenceAmount/@sap:label}"
+                            sortProperty="DifferenceAmount"
+                            filterProperty="DifferenceAmount"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"DifferenceAmount", "leadingProperty":"DifferenceAmount", "sortProperty":"DifferenceAmount", "filterProperty": "DifferenceAmount"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'DifferenceAmount',type:'sap.ui.model.odata.type.Decimal',formatOptions:{groupingEnabled:true}}"
+                                    tooltip="{DifferenceAmount}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 差異総数量 -->
+                        <t:Column
+                            width="10rem"
+                            label="{/#InventoryDifferenceType/TotalDifferenceQuantity/@sap:label}"
+                            sortProperty="TotalDifferenceQuantity"
+                            filterProperty="TotalDifferenceQuantity"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"TotalDifferenceQuantity", "leadingProperty":"TotalDifferenceQuantity", "sortProperty":"TotalDifferenceQuantity", "filterProperty": "TotalDifferenceQuantity"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'TotalDifferenceQuantity',type:'sap.ui.model.odata.type.Decimal',formatOptions:{groupingEnabled:true}}"
+                                    tooltip="{TotalDifferenceQuantity}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 差異総金額 -->
+                        <t:Column
+                            width="12rem"
+                            label="{/#InventoryDifferenceType/TotalDifferenceAmount/@sap:label}"
+                            sortProperty="TotalDifferenceAmount"
+                            filterProperty="TotalDifferenceAmount"
+                            hAlign="Right"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"TotalDifferenceAmount", "leadingProperty":"TotalDifferenceAmount", "sortProperty":"TotalDifferenceAmount", "filterProperty": "TotalDifferenceAmount"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{path:'TotalDifferenceAmount',type:'sap.ui.model.odata.type.Decimal',formatOptions:{groupingEnabled:true}}"
+                                    tooltip="{TotalDifferenceAmount}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 数量単位 -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/MaterialBaseUnit/@sap:label}"
+                            sortProperty="MaterialBaseUnit"
+                            filterProperty="MaterialBaseUnit"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"MaterialBaseUnit", "leadingProperty":"MaterialBaseUnit", "sortProperty":"MaterialBaseUnit", "filterProperty": "MaterialBaseUnit"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{MaterialBaseUnit}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 通貨 -->
+                        <t:Column
+                            width="9rem"
+                            label="{/#InventoryDifferenceType/CompanyCodeCurrency/@sap:label}"
+                            sortProperty="CompanyCodeCurrency"
+                            filterProperty="CompanyCodeCurrency"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"CompanyCodeCurrency", "leadingProperty":"CompanyCodeCurrency", "sortProperty":"CompanyCodeCurrency", "filterProperty": "CompanyCodeCurrency"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{CompanyCodeCurrency}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+
+                        <!-- 配賦済か -->
+                        <t:Column
+                            width="7rem"
+                            label="{/#InventoryDifferenceType/IsAllocated/@sap:label}"
+                            sortProperty="IsAllocated"
+                            filterProperty="IsAllocated"
+                        >
+                            <t:customData>
+                                <core:CustomData
+                                    key="p13nData"
+                                    value='{"columnKey":"IsAllocated", "leadingProperty":"IsAllocated", "sortProperty":"IsAllocated", "filterProperty": "IsAllocated"}'
+                                />
+                            </t:customData>
+                            <t:template>
+                                <Text
+                                    text="{= ${IsAllocated} === 'X' ? ${i18n>AllocatedYes} : ${i18n>AllocatedNo} }"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </smartTable:SmartTable>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar
+                id="idInventoryMessageToolbar"
+                visible="{= ${message>/}.length > 0}"
+            >
+                <Button
+                    id="idInventoryMessageButton"
+                    icon="sap-icon://alert"
+                    text="{= ${message>/}.length }"
+                    type="Emphasized"
+                    press="onMessagePopoverPress"
+                />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

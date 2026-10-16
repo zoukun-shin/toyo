@@ -76,11 +76,18 @@
                 <Property Name="GoodsMovementType" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Movement Type" sap:quickinfo="Movement Type (Inventory Management)"/>
                 <Property Name="PostingDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Posting Date" sap:quickinfo="Posting Date in the Document"/>
                 <Property Name="FiscalYear" Type="Edm.String" MaxLength="4" sap:display-format="NonNegative" sap:label="Fiscal Year"/>
+                <!-- Added by hand on 2026-09-22 together with ManufacturingOrder /
+                     ManufacturingOrderItem below, because the service was extended after this
+                     file was downloaded. Replace with a fresh $metadata download when possible. -->
+                <Property Name="FiscalPeriod" Type="Edm.String" MaxLength="3" sap:display-format="NonNegative" sap:label="Fiscal Period" sap:quickinfo="Posting Period"/>
                 <Property Name="Material" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number" sap:value-list="standard"/>
                 <Property Name="ProductName" Type="Edm.String" MaxLength="40" sap:label="Material Text"/>
                 <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant" sap:value-list="standard"/>
                 <Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/>
                 <Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Company Code" sap:value-list="standard"/>
+                <!-- See the note on FiscalPeriod above. -->
+                <Property Name="ManufacturingOrder" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Manufacturing Order" sap:quickinfo="Order Number"/>
+                <Property Name="ManufacturingOrderItem" Type="Edm.String" MaxLength="4" sap:display-format="NonNegative" sap:label="Manufacturing Order Item" sap:quickinfo="Number of Order Item"/>
                 <Property Name="DifferenceQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="MaterialBaseUnit" sap:label="Difference Quantity"/>
                 <Property Name="DifferenceAmount" Type="Edm.Decimal" Precision="23" Scale="3" sap:unit="CompanyCodeCurrency" sap:variable-scale="true" sap:label="Difference Amount"/>
                 <Property Name="TotalDifferenceQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="MaterialBaseUnit" sap:label="Total Difference Quantity"/>

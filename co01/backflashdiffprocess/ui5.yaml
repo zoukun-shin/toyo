@@ -17,7 +17,7 @@ server:
           url: https://ui5.sap.com
         backend:
           - path: /sap
-            url: https://my429321.s4hana.cloud.sap
+            url: https://my429321-api.s4hana.cloud.sap
             destination: S4H_STARTER_C
             authenticationType: reentranceTicket # SAML support for vscode
     - name: fiori-tools-appreload
