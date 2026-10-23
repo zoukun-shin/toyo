@@ -7,10 +7,12 @@ sap.ui.define([
     "sap/m/Dialog",
     "sap/m/Button",
     "sap/m/Text",
+    "sap/ui/core/format/DateFormat",
+    "../model/formatter",
     "./messages",
     "../lib/xml-js",
     "../lib/pdf-lib.min"
-], (Controller, Filter, FilterOperator, NumberFormat, BusyDialog, Dialog, Button, Text, messages) => {
+], (Controller, Filter, FilterOperator, NumberFormat, BusyDialog, Dialog, Button, Text, DateFormat, formatter, messages) => {
     "use strict";
 
     // ADS のテンプレート（フォーム名/テンプレート名）
@@ -21,6 +23,8 @@ sap.ui.define([
     const ADS_BATCH_SIZE = 100;
 
     return Controller.extend("fi.journalentryprint.controller.Main", {
+        formatter: formatter,
+
         onInit() {
             this._bSearched = false;
             // 仕訳番号クリック時の遷移先（S/4HANA Cloud の FLP）のホストを後端から取得しておく
@@ -60,8 +64,8 @@ sap.ui.define([
                 aFilters.push(new Filter("PrintStatus", FilterOperator.EQ, sPrintStatus));
             }
 
-            this._pushDateRange(aFilters, "DocumentDate", this.byId("idDocumentDate"));
-            this._pushDateRange(aFilters, "PostingDate", this.byId("idPostingDate"));
+            this._pushDateRange(aFilters, "DocumentDate", this.byId("idDRDocumentDate"));
+            this._pushDateRange(aFilters, "PostingDate", this.byId("idDRPostingDate"));
 
             const sTitleType = this.byId("idTitleTabBar").getSelectedKey();
             aFilters.push(new Filter("TitleType", FilterOperator.EQ, sTitleType));
@@ -73,19 +77,23 @@ sap.ui.define([
             const oFrom = oDateRange.getDateValue();
             if (oFrom) {
                 const oTo = oDateRange.getSecondDateValue() || oFrom;
-                aFilters.push(new Filter(sPath, FilterOperator.BT, this._toUtcDate(oFrom), this._toUtcDate(oTo)));
+                aFilters.push(new Filter(sPath, FilterOperator.BT, formatter.odataDate(oFrom), formatter.odataDate(oTo)));
             }
         },
 
-        // 本地日期 -> UTC 0点，OData V2 按UTC序列化时日期才不会前移一天
-        _toUtcDate(oDate) {
-            return new Date(Date.UTC(oDate.getFullYear(), oDate.getMonth(), oDate.getDate()));
-        },
 
         // Excel 出力：反対仕訳済は画面と同じ「はい／いいえ」で出す（未指定だと true/false）
         onBeforeExport(oEvent) {
             const oBundle = this.getView().getModel("i18n").getResourceBundle();
-            const aColumns = oEvent.getParameter("exportSettings").workbook.columns;
+            const mExcelSettings = oEvent.getParameter("exportSettings");
+
+            // ファイル名：タイトル_yyyyMMddHHmmss
+            const oNow = new Date();
+            mExcelSettings.fileName = oBundle.getText("title") + "_" +
+                DateFormat.getDateInstance({ pattern: "yyyyMMdd" }).format(oNow) +
+                DateFormat.getTimeInstance({ pattern: "HHmmss" }).format(oNow);
+
+            const aColumns = mExcelSettings.workbook.columns;
             aColumns.forEach((oColumn) => {
                 if (oColumn.property === "IsReversed") {
                     oColumn.type = "Boolean";
