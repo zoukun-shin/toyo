@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Tue Oct 27 2026 11:22:06 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "https://my445627.s4hana.cloud.sap/sap/opu/odata/sap/ZUI_PAYMENTTERMSCHG_O2",
+    "appName": "paymenttermschg",
+    "appTitle": "債務支払条件更新",
+    "appDescription": "債務支払条件更新",
+    "appNamespace": "fi01",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.120.38",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.33.0",
+    "template": "Basic V2",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}

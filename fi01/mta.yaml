@@ -47,9 +47,22 @@ modules:
       - fijournalentryprint.zip
       name: fijournalentryprint
       target-path: resources/
+    - artifacts:
+      - fi01paymenttermschg.zip
+      name: fi01paymenttermschg
+      target-path: resources/
 - name: fijournalentryprint
   type: html5
   path: journalentryprint
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm run build:cf
+    supported-platforms: []
+- name: fi01paymenttermschg
+  type: html5
+  path: paymenttermschg
   build-parameters:
     build-result: dist
     builder: custom
