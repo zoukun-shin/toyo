@@ -55,6 +55,10 @@ modules:
       - ppofpartition.zip
       name: ppofpartition
       target-path: resources/
+    - artifacts:
+      - ppproductionrouting.zip
+      name: ppproductionrouting
+      target-path: resources/
 - name: ppzofsplitrule
   type: html5
   path: zofsplitrule
@@ -72,12 +76,20 @@ modules:
     build-result: dist
     builder: custom
     commands:
-    - npm install
     - npm run build:cf
     supported-platforms: []
 - name: ppofpartition
   type: html5
   path: ofpartition
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm run build:cf
+    supported-platforms: []
+- name: ppproductionrouting
+  type: html5
+  path: productionrouting
   build-parameters:
     build-result: dist
     builder: custom
